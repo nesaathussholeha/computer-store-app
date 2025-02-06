@@ -1,6 +1,10 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\CashierMiddleware;
+use App\Http\Middleware\LeaderMiddleware;
+use App\Http\Middleware\MemberMiddleware;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -18,3 +22,31 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+Route::middleware(['auth', AdminMiddleware::class])->group(function () {
+    Route::get('/admin/dashboard', function(){
+        return view('admin.index');
+    });
+
+});
+
+Route::middleware(['auth', CashierMiddleware::class])->group(function () {
+    Route::get('/cashier/dashboard', function(){
+        return view('cashier.index');
+    });
+
+});
+
+Route::middleware(['auth', LeaderMiddleware::class])->group(function () {
+    Route::get('/leader/dashboard', function(){
+        return view('leader.index');
+    });
+
+});
+
+Route::middleware(['auth', MemberMiddleware::class])->group(function () {
+    Route::get('/member/dashboard', function(){
+        return view('member.index');
+    });
+
+});
