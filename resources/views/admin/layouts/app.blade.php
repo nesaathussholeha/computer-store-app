@@ -39,7 +39,7 @@
 
         <header id="page-topbar">
             <div class="layout-width">
-               @include('admin.layouts.navbar')
+                @include('admin.layouts.navbar')
             </div>
         </header>
 
@@ -54,8 +54,7 @@
                     <div class="modal-body">
                         <div class="mt-2 text-center">
                             <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop"
-                                colors="primary:#f7b84b,secondary:#f06548"
-                                style="width:100px;height:100px"></lord-icon>
+                                colors="primary:#f7b84b,secondary:#f06548" style="width:100px;height:100px"></lord-icon>
                             <div class="mt-4 pt-2 fs-15 mx-4 mx-sm-5">
                                 <h4>Are you sure ?</h4>
                                 <p class="text-muted mx-4 mb-0">Are you sure you want to remove this Notification ?</p>
@@ -119,6 +118,10 @@
                 <div class="container-fluid">
 
                     <div class="row">
+                        @yield('subcontent')
+                    </div>
+
+                    <div class="row">
                         @yield('content')
 
                     </div>
@@ -169,6 +172,8 @@
 
 
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <!-- JAVASCRIPT -->
     <script src="{{ asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}"></script>
@@ -190,8 +195,21 @@
     <!-- Dashboard init -->
     <script src="{{ asset('assets/js/pages/dashboard-ecommerce.init.js') }}"></script>
 
+    <!-- listjs init -->
+    <script src="{{ asset('assets/js/pages/listjs.init.js') }}"></script>
+
+    <!-- prismjs plugin -->
+    <script src="{{ asset('assets/libs/prismjs/prism.js') }}"></script>
+    <script src="{{ asset('assets/libs/list.js/list.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/list.pagination.js/list.pagination.min.js') }}"></script>
+
     <!-- App js -->
     <script src="{{ asset('assets/js/app.js') }}"></script>
+
+       <!-- Sweet Alerts js -->
+       <script src="{{ asset('assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
+
+       @yield('script');
 </body>
 
 </html>
