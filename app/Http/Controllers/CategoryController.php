@@ -5,16 +5,23 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
+use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::all();
-        return view('admin.category.index');
+        $search = $request->input('search');
+
+        $categories = Category::when($search, function ($query, $search) {
+            return $query->where('name', 'like', '%' . $search . '%');
+        })
+            ->paginate(10);
+
+        return view('admin.category.index', compact('categories'));
     }
 
     /**
@@ -53,16 +60,22 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCategoryRequest $request, Category $category)
+    public function update(UpdateCategoryRequest $request, $id)
     {
-        //
+        $data = Category::findOrFail($id);
+        $data->update($request->all());
+        return to_route('category.update')->with('success', 'Data berhasil diperbarui');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Category $category)
+    public function destroy($id)
     {
-        //
+        $category = Category::findOrFail($id);
+
+        $category->delete();
+
+        return redirect()->route('category.index')->with('success', 'Kategori berhasil dihapus');
     }
 }

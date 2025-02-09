@@ -13,7 +13,10 @@
                         <div class="col-xxl-12">
                             <div>
                                 <label for="firstName" class="form-label">Nama Kategori</label>
-                                <input type="text" class="form-control" id="firstName" name="name" placeholder="Masukkan nama kategori">
+                                <input type="text" class="form-control @error('name') is-invalid @enderror" id="firstName" name="name" placeholder="Masukkan nama kategori" value="{{ old('name') }}">
+                                @error('name')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-lg-12">
