@@ -62,9 +62,12 @@
                                 </a>
                             </div>
                             <div class="d-grid py-4 px-7 pt-8">
-
-                                <a href="authentication-login.html" class="btn btn-outline-primary">Log Out</a>
+                                <form action="{{ route('logout') }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="btn btn-outline-primary w-100">Log Out</button>
+                                </form>
                             </div>
+
                         </div>
                     </div>
                 </li>

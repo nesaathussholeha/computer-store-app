@@ -41,7 +41,7 @@
     <!-- Core Css -->
     <!-- --------------------------------------------------- -->
 
-    <link  id="themeColors"  rel="stylesheet" href="{{ asset('assets/dist/css/style.min.css') }}" />
+    <link id="themeColors" rel="stylesheet" href="{{ asset('assets/dist/css/style.min.css') }}" />
 </head>
 
 <body>
@@ -85,10 +85,15 @@
                             <h6 class="mb-0 fs-4 fw-semibold">Mathew</h6>
                             <span class="fs-2 text-dark">Designer</span>
                         </div>
-                        <button class="border-0 bg-transparent text-primary ms-auto" tabindex="0" type="button"
-                            aria-label="logout" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="logout">
-                            <i class="ti ti-power fs-6"></i>
-                        </button>
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="border-0 bg-transparent text-primary w-100 ms-auto" tabindex="0"
+                                aria-label="logout" data-bs-toggle="tooltip" data-bs-placement="top"
+                                data-bs-title="Logout">
+                                <i class="ti ti-power fs-6"></i>
+                            </button>
+                        </form>
+
                     </div>
                 </div>
                 <!-- End Sidebar navigation -->
