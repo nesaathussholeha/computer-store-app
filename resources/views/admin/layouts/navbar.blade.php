@@ -1,86 +1,74 @@
-<div class="navbar-header">
-    <div class="d-flex">
-        <!-- LOGO -->
-        <div class="navbar-brand-box horizontal-logo">
-            <a href="index.html" class="logo logo-dark">
-                <span class="logo-sm">
-                    <img src="assets/images/logo-sm.png" alt="" height="22">
-                </span>
-                <span class="logo-lg">
-                    <img src="assets/images/logo-dark.png" alt="" height="17">
-                </span>
+<nav class="navbar navbar-expand-lg navbar-light">
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link sidebartoggler nav-icon-hover ms-n3" id="headerCollapse" href="javascript:void(0)">
+                <i class="ti ti-menu-2"></i>
             </a>
-
-            <a href="index.html" class="logo logo-light">
-                <span class="logo-sm">
-                    <img src="assets/images/logo-sm.png" alt="" height="22">
-                </span>
-                <span class="logo-lg">
-                    <img src="assets/images/logo-light.png" alt="" height="17">
-                </span>
-            </a>
-        </div>
-
-        <button type="button"
-            class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger shadow-none"
-            id="topnav-hamburger-icon">
-            <span class="hamburger-icon">
-                <span></span>
-                <span></span>
-                <span></span>
-            </span>
-        </button>
+        </li>
+    </ul>
+    <div class="d-block d-lg-none">
+        <img src="https://demos.adminmart.com/premium/bootstrap/modernize-bootstrap/package/dist/images/logos/dark-logo.svg"
+            class="dark-logo" width="180" alt="" />
+        <img src="https://demos.adminmart.com/premium/bootstrap/modernize-bootstrap/package/dist/images/logos/light-logo.svg"
+            class="light-logo" width="180" alt="" />
     </div>
+    <button class="navbar-toggler p-0 border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="p-2">
+            <i class="ti ti-dots fs-7"></i>
+        </span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <div class="d-flex align-items-center justify-content-between">
+            <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-center">
+                <li class="nav-item dropdown">
+                    <a class="nav-link pe-0" href="javascript:void(0)" id="drop1" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <div class="d-flex align-items-center">
+                            <div class="user-profile-img">
+                                <img src="../../dist/images/profile/user-1.jpg" class="rounded-circle" width="35"
+                                    height="35" alt="" />
+                            </div>
+                        </div>
+                    </a>
+                    <div class="dropdown-menu content-dd dropdown-menu-end dropdown-menu-animate-up"
+                        aria-labelledby="drop1">
+                        <div class="profile-dropdown position-relative" data-simplebar>
+                            <div class="py-3 px-7 pb-0">
+                                <h5 class="mb-0 fs-5 fw-semibold">User Profile</h5>
+                            </div>
+                            <div class="d-flex align-items-center py-9 mx-7 border-bottom">
+                                <img src="../../dist/images/profile/user-1.jpg" class="rounded-circle" width="80"
+                                    height="80" alt="" />
+                                <div class="ms-3">
+                                    <h5 class="mb-1 fs-3">Mathew Anderson</h5>
+                                    <span class="mb-1 d-block text-dark">Designer</span>
+                                    <p class="mb-0 d-flex text-dark align-items-center gap-2">
+                                        <i class="ti ti-mail fs-4"></i> info@modernize.com
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="message-body">
+                                <a href="page-user-profile.html" class="py-8 px-7 mt-8 d-flex align-items-center">
+                                    <span
+                                        class="d-flex align-items-center justify-content-center bg-light rounded-1 p-6">
+                                        <img src="https://demos.adminmart.com/premium/bootstrap/modernize-bootstrap/package/dist/images/svgs/icon-account.svg"
+                                            alt="" width="24" height="24">
+                                    </span>
+                                    <div class="w-75 d-inline-block v-middle ps-3">
+                                        <h6 class="mb-1 bg-hover-primary fw-semibold"> My Profile </h6>
+                                        <span class="d-block text-dark">Account Settings</span>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="d-grid py-4 px-7 pt-8">
 
-    <div class="d-flex align-items-center">
-
-
-
-        <div class="ms-1 header-item d-none d-sm-flex">
-            <button type="button"
-                class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle shadow-none"
-                data-toggle="fullscreen">
-                <i class='bx bx-fullscreen fs-22'></i>
-            </button>
-        </div>
-
-        <div class="ms-1 header-item d-none d-sm-flex">
-            <button type="button"
-                class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle light-dark-mode shadow-none">
-                <i class='bx bx-moon fs-22'></i>
-            </button>
-        </div>
-
-
-        <div class="dropdown ms-sm-3 header-item topbar-user">
-            <button type="button" class="btn shadow-none" id="page-header-user-dropdown"
-                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="d-flex align-items-center">
-                    <img class="rounded-circle header-profile-user"
-                        src="assets/images/users/avatar-1.jpg" alt="Header Avatar">
-                    <span class="text-start ms-xl-2">
-                        <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">Anna
-                            Adame</span>
-                        <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">Founder</span>
-                    </span>
-                </span>
-            </button>
-            <div class="dropdown-menu dropdown-menu-end">
-                <!-- item-->
-                <h6 class="dropdown-header">Welcome Anna!</h6>
-                <a class="dropdown-item" href="pages-profile.html"><i
-                        class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span
-                        class="align-middle">Profile</span></a>
-
-                <a class="dropdown-item" href="pages-profile-settings.html"><span
-                        class="badge bg-success-subtle text-success mt-1 float-end">New</span><i
-                        class="mdi mdi-cog-outline text-muted fs-16 align-middle me-1"></i> <span
-                        class="align-middle">Settings</span></a>
-
-                <a class="dropdown-item" href="auth-logout-basic.html"><i
-                        class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span
-                        class="align-middle" data-key="t-logout">Logout</span></a>
-            </div>
+                                <a href="authentication-login.html" class="btn btn-outline-primary">Log Out</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
-</div>
+</nav>

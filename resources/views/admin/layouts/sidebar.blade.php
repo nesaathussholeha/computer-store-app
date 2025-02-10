@@ -1,42 +1,62 @@
-<div class="container-fluid">
+<nav class="sidebar-nav scroll-sidebar" data-simplebar>
+    <ul id="sidebarnav">
+      <!-- ============================= -->
+      <!-- Home -->
+      <!-- ============================= -->
+      <li class="nav-small-cap">
+        <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+        <span class="hide-menu">Home</span>
+      </li>
+      <!-- =================== -->
+      <!-- Dashboard -->
+      <!-- =================== -->
+      <li class="sidebar-item">
+        <a class="sidebar-link" href="{{ route('admin.dashboard') }}" aria-expanded="false">
+          <span>
+            <i class="ti ti-aperture"></i>
+          </span>
+          <span class="hide-menu">Beranda</span>
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a class="sidebar-link {{ request()->routeIs('category.index') ? 'active' : '' }}" href="{{ route('category.index') }}" aria-expanded="false">
+            <span>
+                <i class="ti ti-shopping-cart"></i>
+            </span>
+            <span class="hide-menu">Kategori</span>
+        </a>
+    </li>
 
-    <div id="two-column-menu">
-    </div>
-    <ul class="navbar-nav" id="navbar-nav">
-        <li class="menu-title"><span data-key="t-menu">Menu</span></li>
-        <li class="nav-item">
-            <a class="nav-link menu-link" href="/admin/dashboard">
-                <i class="mdi mdi-speedometer"></i><span data-key="t-widgets">Beranda</span>
-            </a>
-        </li>
-
-        <li class="menu-title"><i class="ri-more-fill"></i> <span data-key="t-pages">Master</span></li>
-
-        <li class="nav-item">
-            <a class="nav-link menu-link" href="{{ route('category.index') }}">
-                <i class="mdi mdi-speedometer"></i><span data-key="t-widgets">Kategori</span>
-            </a>
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link menu-link" href="#sidebarLanding" data-bs-toggle="collapse" role="button"
-                aria-expanded="false" aria-controls="sidebarLanding">
-                <i class="ri-rocket-line"></i> <span data-key="t-landing">Landing</span>
-            </a>
-            <div class="collapse menu-dropdown" id="sidebarLanding">
-                <ul class="nav nav-sm flex-column">
-                    <li class="nav-item">
-                        <a href="landing.html" class="nav-link" data-key="t-one-page"> One Page </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="nft-landing.html" class="nav-link" data-key="t-nft-landing"> NFT Landing </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="job-landing.html" class="nav-link" data-key="t-job">Job</a>
-                    </li>
-                </ul>
-            </div>
-        </li>
-
-    </ul>
-</div>
+      <li class="sidebar-item">
+        <a class="sidebar-link" href="index3.html" aria-expanded="false">
+          <span>
+            <i class="ti ti-currency-dollar"></i>
+          </span>
+          <span class="hide-menu">NFT</span>
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a class="sidebar-link" href="index4.html" aria-expanded="false">
+          <span>
+            <i class="ti ti-cpu"></i>
+          </span>
+          <span class="hide-menu">Crypto</span>
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a class="sidebar-link" href="index5.html" aria-expanded="false">
+          <span>
+            <i class="ti ti-activity-heartbeat"></i>
+          </span>
+          <span class="hide-menu">General</span>
+        </a>
+      </li>
+      <li class="sidebar-item">
+        <a class="sidebar-link" href="index6.html" aria-expanded="false">
+          <span>
+            <i class="ti ti-playlist"></i>
+          </span>
+          <span class="hide-menu">Music</span>
+        </a>
+      </li>
+  </nav>

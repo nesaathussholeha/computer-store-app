@@ -1,19 +1,36 @@
-<div class="d-flex justify-content-end mt-3">
-    <div class="pagination-wrap hstack gap-2">
-        <a class="page-item pagination-prev @if($paginator->onFirstPage()) disabled @endif" href="{{ $paginator->previousPageUrl() }}">
-            Previous
-        </a>
+<nav aria-label="Pagination">
+    <ul class="pagination">
+        <li class="page-item {{ $paginator->onFirstPage() ? 'disabled' : '' }}">
+            <a class="page-link" href="{{ $paginator->previousPageUrl() }}"
+                tabindex="{{ $paginator->onFirstPage() ? '-1' : '0' }}"
+                aria-disabled="{{ $paginator->onFirstPage() ? 'true' : 'false' }}">
+                Previous
+            </a>
+        </li>
 
-        <ul class="pagination listjs-pagination mb-0">
-            @for ($i = 1; $i <= $paginator->lastPage(); $i++)
-                <li class="page-item @if($i == $paginator->currentPage()) active @endif">
+        @php
+            $totalPages = $paginator->lastPage();
+            $currentPage = $paginator->currentPage();
+            $range = 2;
+        @endphp
+
+        @for ($i = 1; $i <= $totalPages; $i++)
+            @if ($i == 1 || $i == $totalPages || ($i >= $currentPage - $range && $i <= $currentPage + $range))
+                <li class="page-item {{ $i == $currentPage ? 'active' : '' }}"
+                    aria-current="{{ $i == $currentPage ? 'page' : '' }}">
                     <a class="page-link" href="{{ $paginator->url($i) }}">{{ $i }}</a>
                 </li>
-            @endfor
-        </ul>
+            @elseif ($i == 2 || $i == $totalPages - 1)
+                <li class="page-item disabled"><span class="page-link">...</span></li>
+            @endif
+        @endfor
 
-        <a class="page-item pagination-next @if(!$paginator->hasMorePages()) disabled @endif" href="{{ $paginator->nextPageUrl() }}">
-            Next
-        </a>
-    </div>
-</div>
+        <li class="page-item {{ !$paginator->hasMorePages() ? 'disabled' : '' }}">
+            <a class="page-link" href="{{ $paginator->nextPageUrl() }}"
+                tabindex="{{ !$paginator->hasMorePages() ? '-1' : '0' }}"
+                aria-disabled="{{ !$paginator->hasMorePages() ? 'true' : 'false' }}">
+                Next
+            </a>
+        </li>
+    </ul>
+</nav>
