@@ -111,6 +111,8 @@
 
     <!--  Customizer -->
     <!--  Import Js Files -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script src="{{ asset('assets/dist/libs/jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/dist/libs/simplebar/dist/simplebar.min.js') }}"></script>
     <script src="{{ asset('assets/dist/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
@@ -126,7 +128,6 @@
     <script src="{{ asset('assets/dist/js/dashboard.js') }}"></script>
     <script src="{{ asset('assets/dist/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/dist/js/datatable/datatable-basic.init.js') }}"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     @yield('script')
 </body>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SupplierController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\CashierMiddleware;
 use App\Http\Middleware\LeaderMiddleware;
@@ -30,6 +31,8 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     })->name('admin.dashboard');
 
     Route::resource('category', CategoryController::class);
+    Route::resource('supplier', SupplierController::class);
+
 
 });
 
