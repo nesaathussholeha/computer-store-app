@@ -32,6 +32,19 @@ class LoginRequest extends FormRequest
         ];
     }
 
+    public function messages(): array
+    {
+        return [
+            'email.required' => 'Email harus diisi.',
+            'email.string' => 'Email harus berupa teks.',
+            'email.email' => 'Email yang dimasukkan tidak valid.',
+
+            'password.required' => 'Kata sandi harus diisi.',
+            'password.string' => 'Kata sandi harus berupa teks.',
+        ];
+    }
+
+
     /**
      * Attempt to authenticate the request's credentials.
      *
@@ -41,16 +54,27 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
-            RateLimiter::hit($this->throttleKey());
+        // Cek apakah email terdaftar di sistem
+        $user = \App\Models\User::where('email', $this->email)->first();
 
+        // Jika email tidak ditemukan, lemparkan pesan error
+        if (!$user) {
             throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
+                'email' => 'Email belum terdaftar.',
+            ]);
+        }
+
+        // Jika email ada, cek apakah password benar
+        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+            // Cek jika password tidak cocok meskipun email ada
+            throw ValidationException::withMessages([
+                'password' => 'Password yang dimasukkan salah.',
             ]);
         }
 
         RateLimiter::clear($this->throttleKey());
     }
+
 
     /**
      * Ensure the login request is not rate limited.
@@ -80,6 +104,6 @@ class LoginRequest extends FormRequest
      */
     public function throttleKey(): string
     {
-        return Str::transliterate(Str::lower($this->string('email')).'|'.$this->ip());
+        return Str::transliterate(Str::lower($this->string('email')) . '|' . $this->ip());
     }
 }
