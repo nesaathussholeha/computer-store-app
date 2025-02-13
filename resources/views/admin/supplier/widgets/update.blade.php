@@ -26,7 +26,7 @@
                             <div>
                                 <label for="address" class="form-label">Alamat</label>
                                 <input type="text" class="form-control @error('address') is-invalid @enderror"
-                                    id="address" name="address" placeholder="Masukkan alamat"
+                                    id="addressEdit" name="address" placeholder="Masukkan alamat"
                                     value="{{ old('address') }}">
                                 @error('address')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -38,7 +38,7 @@
                             <div>
                                 <label for="phone" class="form-label">No Telepon</label>
                                 <input type="number" class="form-control @error('phone') is-invalid @enderror"
-                                    id="phone" name="phone" placeholder="Masukkan nomor telepon"
+                                    id="phoneEdit" name="phone" placeholder="Masukkan nomor telepon"
                                     value="{{ old('phone') }}">
                                 @error('phone')
                                     <div class="invalid-feedback">{{ $message }}</div>

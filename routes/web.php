@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\CashierMiddleware;
@@ -32,7 +34,8 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
 
     Route::resource('category', CategoryController::class);
     Route::resource('supplier', SupplierController::class);
-
+    Route::resource('product', ProductController::class);
+    Route::resource('purchases', PurchaseController::class);
 
 });
 

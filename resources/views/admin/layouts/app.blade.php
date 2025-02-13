@@ -1,8 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<!-- Mirrored from demos.adminmart.com/premium/bootstrap/modernize-bootstrap/package/html/main/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 06 Jul 2023 01:54:29 GMT -->
-
 <head>
     <!--  Title -->
     <title>Mordenize</title>
@@ -24,24 +21,18 @@
     <!-- Core Css -->
     <link id="themeColors" rel="stylesheet" href="{{ asset('assets/dist/css/style.min.css') }}" />
 
-    <!-- --------------------------------------------------- -->
-    <!-- Prism Js -->
-    <!-- --------------------------------------------------- -->
     <link rel="stylesheet" href="{{ asset('assets/dist/libs/prismjs/themes/prism-okaidia.min.css') }}">
 
-
-
-    <!-- --------------------------------------------------- -->
-    <!-- Datatable -->
-    <!-- --------------------------------------------------- -->
     <link rel="stylesheet" href="{{ asset('assets/dist/libs/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
 
-
-    <!-- --------------------------------------------------- -->
-    <!-- Core Css -->
-    <!-- --------------------------------------------------- -->
-
     <link id="themeColors" rel="stylesheet" href="{{ asset('assets/dist/css/style.min.css') }}" />
+    <!-- Di dalam tag <head> -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+
+    <!-- Sebelum penutupan </body> -->
+
+
+    @yield('style')
 </head>
 
 <body>
@@ -75,27 +66,7 @@
                 </div>
                 <!-- Sidebar navigation-->
                 @include('admin.layouts.sidebar')
-                <div class="fixed-profile p-3 bg-light-secondary rounded sidebar-ad mt-3">
-                    <div class="hstack gap-3">
-                        <div class="john-img">
-                            <img src="../../dist/images/profile/user-1.jpg" class="rounded-circle" width="40"
-                                height="40" alt="">
-                        </div>
-                        <div class="john-title">
-                            <h6 class="mb-0 fs-4 fw-semibold">Mathew</h6>
-                            <span class="fs-2 text-dark">Designer</span>
-                        </div>
-                        <form action="{{ route('logout') }}" method="POST">
-                            @csrf
-                            <button type="submit" class="border-0 bg-transparent text-primary w-100 ms-auto" tabindex="0"
-                                aria-label="logout" data-bs-toggle="tooltip" data-bs-placement="top"
-                                data-bs-title="Logout">
-                                <i class="ti ti-power fs-6"></i>
-                            </button>
-                        </form>
 
-                    </div>
-                </div>
                 <!-- End Sidebar navigation -->
             </div>
             <!-- End Sidebar scroll-->
@@ -118,9 +89,15 @@
     <!--  Import Js Files -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+
+
     <script src="{{ asset('assets/dist/libs/jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/dist/libs/simplebar/dist/simplebar.min.js') }}"></script>
     <script src="{{ asset('assets/dist/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script src="{{ asset('assets/dist/libs/jquery.repeater/jquery.repeater.min.js') }}"></script>
+    <script src="{{ asset('assets/dist/js/plugins/repeater-init.js') }}"></script>
     <!--  core files -->
     <script src="{{ asset('assets/dist/js/app.min.js') }}"></script>
     <script src="{{ asset('assets/dist/js/app.init.js') }}"></script>
@@ -133,6 +110,7 @@
     <script src="{{ asset('assets/dist/js/dashboard.js') }}"></script>
     <script src="{{ asset('assets/dist/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/dist/js/datatable/datatable-basic.init.js') }}"></script>
+
 
     @yield('script')
 </body>

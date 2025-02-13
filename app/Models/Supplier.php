@@ -17,4 +17,18 @@ class Supplier extends Model
     ];
 
     public $incrementing = true;
+
+    /**
+     * Get all of the comments for the Supplier
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class);
+    }
 }

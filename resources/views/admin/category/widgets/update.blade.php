@@ -6,7 +6,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="" method="POST" enctype="multipart/form-data" id="formEdit">
+                <form id="formEdit" method="POST" enctype="multipart/form-data">
                     @method('PUT')
                     @csrf
                     <div class="row g-3">

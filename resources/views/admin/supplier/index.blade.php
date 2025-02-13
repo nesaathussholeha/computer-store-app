@@ -25,7 +25,7 @@
     </div>
 
     <div class="row g-4 mb-3 d-flex justify-content-between align-items-center">
-        <div class="col-sm-auto">
+        <div class="col-sm-auto mb-0">
             <form action="{{ route('supplier.index') }}" method="GET">
                 <div class="input-group mb-3">
                     <input type="text" class="form-control" placeholder="Cari pemasok..." name="search"
@@ -35,15 +35,17 @@
             </form>
         </div>
 
-        <div class="col-sm-auto d-flex align-items-center">
-            <button type="button" class="btn btn-success add-btn d-flex align-items-center" data-bs-toggle="modal"
-                id="create-btn" data-bs-target="#createSupplier">
+        <div class="col-sm-auto d-flex align-items-center mt-0">
+            <button type="button"
+                class="btn btn-success add-btn d-flex align-items-center justify-content-center text-center w-100"
+                data-bs-toggle="modal" id="create-btn" data-bs-target="#createSupplier">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="me-1">
                     <path fill="currentColor"
                         d="M18 12.998h-5v5a1 1 0 0 1-2 0v-5H6a1 1 0 0 1 0-2h5v-5a1 1 0 0 1 2 0v5h5a1 1 0 0 1 0 2" />
                 </svg>
                 Tambah
             </button>
+
         </div>
 
     </div>

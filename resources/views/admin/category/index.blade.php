@@ -35,9 +35,10 @@
             </form>
         </div>
 
-        <div class="col-sm-auto d-flex align-items-center">
-            <button type="button" class="btn btn-success add-btn d-flex align-items-center" data-bs-toggle="modal"
-                id="create-btn" data-bs-target="#createCategory">
+        <div class="col-sm-auto d-flex align-items-center mt-0">
+            <button type="button"
+                class="btn btn-success add-btn d-flex align-items-center justify-content-center text-center w-100"
+                data-bs-toggle="modal" id="create-btn" data-bs-target="#createCategory">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" class="me-1">
                     <path fill="currentColor"
                         d="M18 12.998h-5v5a1 1 0 0 1-2 0v-5H6a1 1 0 0 1 0-2h5v-5a1 1 0 0 1 2 0v5h5a1 1 0 0 1 0 2" />
@@ -79,9 +80,9 @@
                         </td>
                     </tr>
                 @empty
-                <tr>
-                    <td colspan="3" class="text-center">Data Tidak Ditemukan</td>
-                </tr>
+                    <tr>
+                        <td colspan="3" class="text-center">Data Tidak Ditemukan</td>
+                    </tr>
                 @endforelse
             </tbody>
         </table>
@@ -105,7 +106,8 @@
 
                 $('#nameEdit').val(name);
 
-                $('#formEdit').attr('action', `{{ route('category.update', '') }}/${id}`);
+                $('#formEdit').attr('action', '{{ route('category.update', ['category' => ':id']) }}'
+                    .replace(':id', id));
 
                 $('#updateCategory').modal('show');
             });
