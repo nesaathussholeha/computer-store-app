@@ -161,7 +161,7 @@
     @include('components.delete-modal')
 @endsection
 
-@section('script')
+{{-- @section('script')
     <script>
         $(document).ready(function() {
             $('.select2').select2({
@@ -199,4 +199,4 @@
             });
         });
     </script>
-@endsection
+@endsection --}}

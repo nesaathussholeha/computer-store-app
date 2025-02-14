@@ -15,8 +15,7 @@
     <!--  Favicon -->
     <link rel="shortcut icon" type="image/png"
         href="https://demos.adminmart.com/premium/bootstrap/modernize-bootstrap/package/dist/images/logos/favicon.ico" />
-    <!-- Owl Carousel  -->
-    <link rel="stylesheet" href="{{ asset('assets/dist/libs/owl.carousel/dist/assets/owl.carousel.min.css') }}">
+ 
 
     <!-- Core Css -->
     <link id="themeColors" rel="stylesheet" href="{{ asset('assets/dist/css/style.min.css') }}" />
@@ -90,7 +89,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
-
     <script src="{{ asset('assets/dist/libs/jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/dist/libs/simplebar/dist/simplebar.min.js') }}"></script>
     <script src="{{ asset('assets/dist/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
@@ -105,12 +103,7 @@
     <script src="{{ asset('assets/dist/js/sidebarmenu.js') }}"></script>
     <script src="{{ asset('assets/dist/js/custom.js') }}"></script>
     <!--  current page js files -->
-    <script src="{{ asset('assets/dist/libs/owl.carousel/dist/owl.carousel.min.js') }}"></script>
-    <script src="{{ asset('assets/dist/libs/apexcharts/dist/apexcharts.min.js') }}"></script>
     <script src="{{ asset('assets/dist/js/dashboard.js') }}"></script>
-    <script src="{{ asset('assets/dist/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/dist/js/datatable/datatable-basic.init.js') }}"></script>
-
 
     @yield('script')
 </body>

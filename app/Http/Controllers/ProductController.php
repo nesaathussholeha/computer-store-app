@@ -50,6 +50,7 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request)
     {
         $data = $request->all();
+        dd($data);
 
         if ($request->hasFile('image')) {
             $foto = $request->file('image');

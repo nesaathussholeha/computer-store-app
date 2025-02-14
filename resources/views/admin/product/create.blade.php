@@ -26,13 +26,23 @@
 @endsection
 
 @section('content')
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <div class="col-12 col-lg-12">
         <div class="card">
             <div class="border-bottom title-part-padding">
                 <h4 class="card-title mb-0">Data Produk</h4>
             </div>
             <div class="card-body">
-                <form action="{{ route('purchases.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('purchase.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-md-6 mb-3">
@@ -50,20 +60,20 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Tanggal Pembelian</label>
-                            <input type="date" class="form-control" name="purchase_date"
-                                value="{{ old('purchase_date') }}">
+                            <input type="date" class="form-control" name="tgl_beli" value="{{ old('tgl_beli') }}">
                         </div>
                     </div>
 
                     <div class="email-repeater mb-3">
-                        <div data-repeater-list="repeater-group">
+                        <div data-repeater-list="products">
                             <div data-repeater-item class="row mb-3 repeater-item">
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Nama Produk<small class="text-danger">*</small></label>
                                     <input type="text"
-                                        class="form-control @error('products.0.name') is-invalid @enderror"
-                                        name="products[0][name]" placeholder="Masukkan nama produk"
-                                        value="{{ old('products.0.name') }}">
+                                        class="form-control @error('products.*.name') is-invalid @enderror"
+                                        name="[name]" value="{{ old('products.0.name') }}"
+                                        placeholder="Masukkan nama produk">
+
                                     @error('products.0.name')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -72,7 +82,7 @@
                                     <label class="form-label">Kategori<small class="text-danger">*</small></label>
                                     <select
                                         class="select2 form-control @error('products.0.category_id') is-invalid @enderror"
-                                        name="products[0][category_id]">
+                                        name="[category_id]">
                                         <option selected disabled>Pilih Kategori...</option>
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -86,7 +96,7 @@
                                     <label class="form-label">Berat (Gram)<small class="text-danger">*</small></label>
                                     <input type="number"
                                         class="form-control @error('products.0.weight') is-invalid @enderror"
-                                        name="products[0][weight]" placeholder="Masukkan berat produk"
+                                        name="[weight]" placeholder="Masukkan berat produk"
                                         value="{{ old('products.0.weight') }}">
                                     @error('products.0.weight')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -96,7 +106,7 @@
                                     <label class="form-label">Harga<small class="text-danger">*</small></label>
                                     <input type="number"
                                         class="form-control @error('products.0.price') is-invalid @enderror"
-                                        name="products[0][price]" placeholder="Masukkan harga produk"
+                                        name="[price]" placeholder="Masukkan harga produk"
                                         value="{{ old('products.0.price') }}">
                                     @error('products.0.price')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -106,7 +116,7 @@
                                     <label class="form-label">Stok<small class="text-danger">*</small></label>
                                     <input type="number"
                                         class="form-control @error('products.0.stock') is-invalid @enderror"
-                                        name="products[0][stock]" placeholder="Masukkan stok produk"
+                                        name="[stock]" placeholder="Masukkan stok produk"
                                         value="{{ old('products.0.stock') }}">
                                     @error('products.0.stock')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -114,13 +124,13 @@
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Deskripsi</label>
-                                    <textarea class="form-control" name="products[0][description]" rows="1"
+                                    <textarea class="form-control" name="[description]" rows="1"
                                         placeholder="Masukkan deskripsi produk...">{{ old('products.0.description') }}</textarea>
                                 </div>
                                 <div class="col-md-11 d-flex align-items-center">
                                     <div class="w-100">
                                         <label class="form-label">Foto</label>
-                                        <input class="form-control" type="file" name="products[0][image]">
+                                        <input class="form-control" type="file" name="[image]">
                                     </div>
                                 </div>
                                 <div class="col-md-1 d-flex align-items-end">
