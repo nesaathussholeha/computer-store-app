@@ -89,22 +89,14 @@ class MemberController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(UpdateMemberRequest $request, $id)
     {
         $member = Member::findOrFail($id);
         $user = $member->user; // Ambil user terkait
 
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => [
-                'required',
-                'email',
-                'max:255',
-                Rule::unique('users', 'email')->ignore($user->id), // Gunakan ID user, bukan member
-            ],
-            'address' => 'nullable|string|max:255',
-            'telp' => 'nullable|string|max:15',
-        ]);
+        if (!$user) {
+            return redirect()->back()->withErrors(['error' => 'User tidak ditemukan!']);
+        }
 
         // Update data di tabel users
         $user->update([
@@ -112,15 +104,16 @@ class MemberController extends Controller
             'email' => $request->email, // Perbarui email user
         ]);
 
-        // Update data di tabel members
+        // Update data di tabel members (Hapus update 'name')
         $member->update([
-            'name' => $request->name,   // Perbarui nama member
             'address' => $request->address,
             'telp' => $request->telp,
         ]);
 
         return redirect()->back()->with('success', 'Member berhasil diperbarui!');
     }
+
+
 
 
     /**

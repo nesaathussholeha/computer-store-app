@@ -75,7 +75,7 @@
                     <tr>
                         <td>{{ $index + 1 }}</td>
                         <td>
-                            <h6 class="fs-4 fw-semibold mb-0">{{ $member->name }}</h6>
+                            <h6 class="fs-4 fw-semibold mb-0">{{ $member->user->name }}</h6>
                         </td>
                         <td>
                             <p class="mb-0 fw-normal fs-4">{{ $member->user->email }}</p>
@@ -88,7 +88,7 @@
                         </td>
                         <td>
                             <button type="button" class="btn btn-sm btn-warning btn-edit" data-id="{{ $member->id }}"
-                                data-name="{{ $member->name }}" data-email="{{ $member->user->email }}"
+                                data-name="{{ $member->user->name }}" data-email="{{ $member->user->email }}"
                                 data-address="{{ $member->address }}" data-telp="{{ $member->telp }}">
                                 Edit
                             </button>
@@ -124,7 +124,7 @@
                 var address = $(this).data('address');
                 var telp = $(this).data('telp');
 
-                              // Set nilai input pada modal edit
+                               // Set nilai input pada modal edit
                 $('#nameEdit').val(name);
                 $('#emailEdit').val(email);
                 $('#addressEdit').val(address);
