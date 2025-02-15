@@ -34,12 +34,12 @@
         </li>
 
         <li class="sidebar-item">
-            <a class="sidebar-link {{ request()->routeIs('supplier.index') ? 'active' : '' }}"
-                href="{{ route('supplier.index') }}" aria-expanded="false">
+            <a class="sidebar-link {{ request()->routeIs('sale.index') ? 'active' : '' }}"
+                href="{{ route('sale.index') }}" aria-expanded="false">
                 <span>
                     <i class="ti ti-shopping-cart"></i>
                 </span>
-                <span class="hide-menu">Supplier</span>
+                <span class="hide-menu">Penjualan</span>
             </a>
         </li>
 

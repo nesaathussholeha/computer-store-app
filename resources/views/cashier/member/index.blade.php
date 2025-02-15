@@ -26,12 +26,13 @@
 
     <div class="row g-4 mb-3 d-flex justify-content-between align-items-center">
         <div class="col-sm-auto">
-            <form action="{{ route('member.index') }}" method="GET" class="mb-3 d-flex">
-                <input type="text" name="search" class="form-control me-2" placeholder="Cari member..."
+            <form action="{{ route('member.index') }}" method="GET" class="mb-3 d-flex gap-2">
+                <input type="text" name="search" class="form-control" placeholder="Cari member..."
                     value="{{ request('search') }}">
                 <button type="submit" class="btn btn-primary">Cari</button>
             </form>
         </div>
+
 
         <div class="col-sm-auto d-flex align-items-center mt-0">
             <button type="button"
@@ -105,6 +106,9 @@
                 @endforelse
             </tbody>
         </table>
+        <div class="d-flex justify-content-end mt-3">
+            <x-pagination :paginator="$members" />
+        </div>
     </div>
 
 
@@ -124,7 +128,7 @@
                 var address = $(this).data('address');
                 var telp = $(this).data('telp');
 
-                               // Set nilai input pada modal edit
+                // Set nilai input pada modal edit
                 $('#nameEdit').val(name);
                 $('#emailEdit').val(email);
                 $('#addressEdit').val(address);

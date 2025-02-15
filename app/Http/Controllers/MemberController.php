@@ -17,23 +17,19 @@ class MemberController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Member::with('user');
+        $members = Member::with('user')
+            ->when($request->search, function ($query, $search) {
+                $query->whereHas('user', function ($q) use ($search) {
+                    $q->where('name', 'like', "%$search%")
+                        ->orWhere('email', 'like', "%$search%");
+                })->orWhere('address', 'like', "%$search%");
+            })
+            ->paginate(10);
 
-        // Pencarian berdasarkan nama, email, atau alamat
-        if ($request->has('search')) {
-            $search = $request->search;
-            $query->where('name', 'like', "%$search%")
-                ->orWhere('address', 'like', "%$search%")
-                ->orWhereHas('user', function ($q) use ($search) {
-                    $q->where('email', 'like', "%$search%");
-                });
-        }
-
-        // Paginasi
-        $members = $query->paginate(10);
 
         return view('cashier.member.index', compact('members'));
     }
+
 
 
     /**

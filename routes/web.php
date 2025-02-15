@@ -5,6 +5,7 @@ use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\CashierMiddleware;
@@ -45,8 +46,9 @@ Route::middleware(['auth', CashierMiddleware::class])->group(function () {
     Route::get('/cashier/dashboard', function () {
         return view('cashier.index');
     })->name('cashier.dashboard');
-
     Route::resource('member', MemberController::class);
+    Route::resource('sale', SaleController::class);
+
 });
 
 Route::middleware(['auth', LeaderMiddleware::class])->group(function () {

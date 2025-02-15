@@ -96,6 +96,8 @@
     <script src="{{ asset('assets/dist/libs/bootstrap/dist/js/bootstrap.bundle.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script src="{{ asset('assets/dist/libs/jquery.repeater/jquery.repeater.min.js') }}"></script>
+    <script src="{{ asset('assets/dist/js/plugins/repeater-init.js') }}"></script>
     <!--  core files -->
     <script src="{{ asset('assets/dist/js/app.min.js') }}"></script>
     <script src="{{ asset('assets/dist/js/app.init.js') }}"></script>
@@ -103,11 +105,7 @@
     <script src="{{ asset('assets/dist/js/sidebarmenu.js') }}"></script>
     <script src="{{ asset('assets/dist/js/custom.js') }}"></script>
     <!--  current page js files -->
-    <script src="{{ asset('assets/dist/libs/owl.carousel/dist/owl.carousel.min.js') }}"></script>
-    <script src="{{ asset('assets/dist/libs/apexcharts/dist/apexcharts.min.js') }}"></script>
     <script src="{{ asset('assets/dist/js/dashboard.js') }}"></script>
-    <script src="{{ asset('assets/dist/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('assets/dist/js/datatable/datatable-basic.init.js') }}"></script>
 
 
     @yield('script')
