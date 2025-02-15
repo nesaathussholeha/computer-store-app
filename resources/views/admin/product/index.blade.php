@@ -103,6 +103,9 @@
                         <h6 class="fs-4 fw-semibold mb-0">No</h6>
                     </th>
                     <th>
+                        <h6 class="fs-4 fw-semibold mb-0">Gambar</h6>
+                    </th>
+                    <th>
                         <h6 class="fs-4 fw-semibold mb-0">Nama</h6>
                     </th>
                     <th>
@@ -124,29 +127,34 @@
                     <tr>
                         <td>{{ $products->firstItem() + $loop->iteration - 1 }}</td>
                         <td>
+                            <img src="{{ asset('storage/' . $product->image) }}" class="rounded" width="50"
+                                height="50" alt="Gambar">
+                        </td>
+                        <td>
                             <h6 class="fs-4 fw-semibold mb-0">{{ $product->name }}</h6>
                         </td>
                         <td>
                             <p class="mb-0 fw-normal fs-4">{{ $product->category->name }}</p>
                         </td>
                         <td>
-                            <p class="mb-0 fw-normal fs-4">{{ $product->price }}</p>
+                            <p class="mb-0 fw-normal fs-4">Rp {{ number_format($product->price, 0, ',', '.') }}</p>
                         </td>
                         <td>
                             <p class="mb-0 fw-normal fs-4">{{ $product->stock }}</p>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-sm btn-warning btn-edit" data-id="{{ $product->id }}"
-                                data-name="{{ $product->name }}" data-price="{{ $product->price }}"
-                                data-stock="{{ $product->stock }}" data-weight="{{ $product->weight }}">Edit</button>
+                            <a href="{{ route('purchase.edit', $product->id) }}" type="button" class="btn btn-sm btn-warning btn-edit">
+                                Edit
+                            </a>
 
-                            <button type="button" class="btn btn-sm btn-danger btn-delete"
-                                data-id="{{ $product->id }}">Hapus</button>
+                            <button type="button" class="btn btn-sm btn-danger btn-delete" data-id="{{ $product->id }}">
+                                Hapus
+                            </button>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="text-center">Data Tidak Ditemukan</td>
+                        <td colspan="7" class="text-center">Data Tidak Ditemukan</td>
                     </tr>
                 @endforelse
             </tbody>
@@ -156,47 +164,8 @@
         </div>
     </div>
 
-    @include('admin.product.widgets.create')
-    @include('admin.product.widgets.update')
+
+
     @include('components.delete-modal')
 @endsection
 
-{{-- @section('script')
-    <script>
-        $(document).ready(function() {
-            $('.select2').select2({
-                dropdownParent: $('#createProduct')
-            });
-        });
-    </script>
-
-    <script>
-        $(document).ready(function() {
-            $('.btn-edit').click(function() {
-                var id = $(this).data('id');
-                var name = $(this).data('name');
-                var price = $(this).data('price');
-                var stock = $(this).data('stock');
-                var weight = $(this).data('weight');
-
-
-                $('#nameEdit').val(name);
-                $('#priceEdit').val(price);
-                $('#stockEdit').val(stock);
-                $('#weightEdit').val(weight);
-
-
-                $('#updateProductForm').attr('action', `{{ route('supplier.update', '') }}/${id}`);
-
-                $('#updateProduct').modal('show');
-            });
-
-
-            $('.btn-delete').on('click', function() {
-                var id = $(this).data('id');
-                $('#formDelete').attr('action', `{{ route('supplier.destroy', '') }}/${id}`);
-                $('#modalDelete').modal('show');
-            });
-        });
-    </script>
-@endsection --}}

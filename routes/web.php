@@ -38,6 +38,8 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::resource('purchase', PurchaseController::class);
 });
 
+
+
 Route::middleware(['auth', CashierMiddleware::class])->group(function () {
     Route::get('/cashier/dashboard', function () {
         return view('cashier.index');

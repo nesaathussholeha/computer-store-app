@@ -49,22 +49,7 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        $data = $request->all();
-        dd($data);
-
-        if ($request->hasFile('image')) {
-            $foto = $request->file('image');
-
-            $fotoName = str::random(20) . '.' . $foto->getClientOriginalExtension();
-
-            $fotoPath = $foto->storeAs('product', $fotoName, 'public');
-
-            $data['image'] = $fotoPath;
-        }
-
-        Product::create($data);
-
-        return to_route('product.index')->with('success', 'Berhasil menambah data');
+        //
     }
 
     /**
@@ -78,10 +63,26 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Product $product)
+    public function edit($id)
     {
-        //
+        // Mengambil produk berdasarkan ID
+        $product = Product::find($id);
+
+        // Pastikan produk ditemukan
+        if (!$product) {
+            return redirect()->route('products.index')->with('error', 'Produk tidak ditemukan.');
+        }
+
+        // Mengambil data supplier dan kategori terkait
+        $suppliers = Supplier::all();
+        $categories = Category::all();
+
+        // Kirim data ke view
+        return view('admin.product.update', compact('product', 'suppliers', 'categories'));
     }
+
+
+
 
     /**
      * Update the specified resource in storage.

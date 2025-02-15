@@ -23,14 +23,14 @@ class StorePurchaseRequest extends FormRequest
     {
         return [
             'supplier_id' => 'required|exists:suppliers,id',
-            'purchase_date' => 'required|date',
+            'purchase_date' => 'nullable|date|before_or_equal:today',
             'products' => 'required|array',
-            'products.*.name' => 'required|string',
+            'products.*.name' => 'required|string|max:255',
             'products.*.category_id' => 'required|exists:categories,id',
-            'products.*.weight' => 'required|numeric',
-            'products.*.price' => 'required|numeric',
-            'products.*.stock' => 'required|integer',
-            'products.*.description' => 'nullable|string',
+            'products.*.weight' => 'required|numeric|min:1|max:100000',
+            'products.*.price' => 'required|numeric|min:1|max:100000000',
+            'products.*.stock' => 'required|integer|min:1|max:10000',
+            'products.*.description' => 'nullable|string|max:500', 
             'products.*.image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ];
     }
@@ -41,8 +41,8 @@ class StorePurchaseRequest extends FormRequest
             'supplier_id.required' => 'Supplier wajib diisi.',
             'supplier_id.exists' => 'Supplier yang dipilih tidak valid.',
 
-            'purchase_date.required' => 'Tanggal pembelian wajib diisi.',
             'purchase_date.date' => 'Format tanggal pembelian tidak valid.',
+            'purchase_date.before_or_equal' => 'Tanggal pembelian tidak boleh lebih dari hari ini.',
 
             'products.required' => 'Minimal satu produk harus ditambahkan.',
             'products.array' => 'Format produk tidak valid.',
@@ -55,18 +55,22 @@ class StorePurchaseRequest extends FormRequest
             'products.*.category_id.exists' => 'Kategori produk yang dipilih tidak valid.',
 
             'products.*.weight.required' => 'Berat produk wajib diisi.',
-            'products.*.weight.integer' => 'Berat produk harus berupa angka.',
+            'products.*.weight.numeric' => 'Berat produk harus berupa angka.',
             'products.*.weight.min' => 'Berat produk minimal 1 gram.',
+            'products.*.weight.max' => 'Berat produk maksimal 100 kg.',
 
             'products.*.price.required' => 'Harga produk wajib diisi.',
-            'products.*.price.integer' => 'Harga produk harus berupa angka.',
+            'products.*.price.numeric' => 'Harga produk harus berupa angka.',
             'products.*.price.min' => 'Harga produk minimal 1.',
+            'products.*.price.max' => 'Harga produk tidak boleh lebih dari 100 juta.',
 
             'products.*.stock.required' => 'Stok produk wajib diisi.',
             'products.*.stock.integer' => 'Stok produk harus berupa angka.',
             'products.*.stock.min' => 'Stok produk minimal 1.',
+            'products.*.stock.max' => 'Stok produk maksimal 10.000.',
 
             'products.*.description.string' => 'Deskripsi produk harus berupa teks.',
+            'products.*.description.max' => 'Deskripsi produk tidak boleh lebih dari 500 karakter.',
 
             'products.*.image.image' => 'File harus berupa gambar.',
             'products.*.image.mimes' => 'Format gambar harus jpg, jpeg, atau png.',

@@ -60,8 +60,13 @@
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Tanggal Pembelian</label>
-                            <input type="date" class="form-control" name="tgl_beli" value="{{ old('tgl_beli') }}">
+                            <input type="date" class="form-control @error('tgl_beli') is-invalid @enderror"
+                                name="tgl_beli" value="{{ old('tgl_beli', now()->format('Y-m-d')) }}">
+                            @error('tgl_beli')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
+
                     </div>
 
                     <div class="email-repeater mb-3">
@@ -70,9 +75,8 @@
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Nama Produk<small class="text-danger">*</small></label>
                                     <input type="text"
-                                        class="form-control @error('products.*.name') is-invalid @enderror"
-                                        name="[name]" value="{{ old('products.0.name') }}"
-                                        placeholder="Masukkan nama produk">
+                                        class="form-control @error('products.*.name') is-invalid @enderror" name="[name]"
+                                        value="{{ old('products.0.name') }}" placeholder="Masukkan nama produk">
 
                                     @error('products.0.name')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -105,9 +109,8 @@
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Harga<small class="text-danger">*</small></label>
                                     <input type="number"
-                                        class="form-control @error('products.0.price') is-invalid @enderror"
-                                        name="[price]" placeholder="Masukkan harga produk"
-                                        value="{{ old('products.0.price') }}">
+                                        class="form-control @error('products.0.price') is-invalid @enderror" name="[price]"
+                                        placeholder="Masukkan harga produk" value="{{ old('products.0.price') }}">
                                     @error('products.0.price')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -115,17 +118,15 @@
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Stok<small class="text-danger">*</small></label>
                                     <input type="number"
-                                        class="form-control @error('products.0.stock') is-invalid @enderror"
-                                        name="[stock]" placeholder="Masukkan stok produk"
-                                        value="{{ old('products.0.stock') }}">
+                                        class="form-control @error('products.0.stock') is-invalid @enderror" name="[stock]"
+                                        placeholder="Masukkan stok produk" value="{{ old('products.0.stock') }}">
                                     @error('products.0.stock')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Deskripsi</label>
-                                    <textarea class="form-control" name="[description]" rows="1"
-                                        placeholder="Masukkan deskripsi produk...">{{ old('products.0.description') }}</textarea>
+                                    <textarea class="form-control" name="[description]" rows="1" placeholder="Masukkan deskripsi produk...">{{ old('products.0.description') }}</textarea>
                                 </div>
                                 <div class="col-md-11 d-flex align-items-center">
                                     <div class="w-100">
