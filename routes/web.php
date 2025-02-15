@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\MemberController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PurchaseController;
@@ -43,7 +44,9 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
 Route::middleware(['auth', CashierMiddleware::class])->group(function () {
     Route::get('/cashier/dashboard', function () {
         return view('cashier.index');
-    });
+    })->name('cashier.dashboard');
+
+    Route::resource('member', MemberController::class);
 });
 
 Route::middleware(['auth', LeaderMiddleware::class])->group(function () {

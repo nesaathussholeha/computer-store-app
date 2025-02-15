@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('cashier.layouts.app')
 @section('content')
     <div class="row">
         <div class="col-lg-8 d-flex align-items-stretch">

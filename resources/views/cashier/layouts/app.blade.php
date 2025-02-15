@@ -65,7 +65,7 @@
                     </div>
                 </div>
                 <!-- Sidebar navigation-->
-                @include('admin.layouts.sidebar')
+                @include('cashier.layouts.sidebar')
 
                 <!-- End Sidebar navigation -->
             </div>
@@ -76,7 +76,7 @@
         <div class="body-wrapper">
             <!--  Header Start -->
             <header class="app-header">
-                @include('admin.layouts.navbar')
+                @include('cashier.layouts.navbar')
             </header>
             <!--  Header End -->
             <div class="container-fluid">
