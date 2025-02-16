@@ -45,4 +45,55 @@
             </a>
         </div>
     </div>
+
+    <div class="table-responsive rounded-2 mb-4">
+        <table class="table border text-nowrap customize-table mb-0 align-middle">
+            <thead class="text-dark fs-4">
+                <tr>
+                    <th><h6 class="fs-4 fw-semibold mb-0">No</h6></th>
+                    <th><h6 class="fs-4 fw-semibold mb-0">Nomor Transaksi</h6></th>
+                    <th><h6 class="fs-4 fw-semibold mb-0">Nama Member</h6></th>
+                    <th><h6 class="fs-4 fw-semibold mb-0">Total Harga</h6></th>
+                    <th><h6 class="fs-4 fw-semibold mb-0">Jumlah Dibayar</h6></th>
+                    <th><h6 class="fs-4 fw-semibold mb-0">Kembalian</h6></th>
+                    <th><h6 class="fs-4 fw-semibold mb-0">Tanggal Transaksi</h6></th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse ($sales as $index => $sale)
+                    <tr>
+                        <td>{{ $index + 1 }}</td>
+                        <td>
+                            <h6 class="fs-4 fw-semibold mb-0">#{{ $sale->id }}</h6>
+                        </td>
+                        <td>
+                            <p class="mb-0 fw-normal fs-4">
+                                {{ $sale->member ? $sale->member->user->name : '-' }}
+                            </p>
+                        </td>
+                        <td>
+                            <p class="mb-0 fw-normal fs-4">Rp {{ number_format($sale->total_price, 0, ',', '.') }}</p>
+                        </td>
+                        <td>
+                            <p class="mb-0 fw-normal fs-4">Rp {{ number_format($sale->paid_amount, 0, ',', '.') }}</p>
+                        </td>
+                        <td>
+                            <p class="mb-0 fw-normal fs-4">Rp {{ number_format($sale->change_amount, 0, ',', '.') }}</p>
+                        </td>
+                        <td>
+                            <p class="mb-0 fw-normal fs-4">{{ $sale->created_at->format('d M Y H:i') }}</p>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="7" class="text-center">Data Tidak Ditemukan</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-end mt-3">
+            <x-pagination :paginator="$sales" />
+        </div>
+    </div>
+
 @endsection

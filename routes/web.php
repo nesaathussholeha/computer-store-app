@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\MemberDashboardController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PurchaseController;
@@ -48,7 +49,6 @@ Route::middleware(['auth', CashierMiddleware::class])->group(function () {
     })->name('cashier.dashboard');
     Route::resource('member', MemberController::class);
     Route::resource('sale', SaleController::class);
-
 });
 
 Route::middleware(['auth', LeaderMiddleware::class])->group(function () {
@@ -58,7 +58,8 @@ Route::middleware(['auth', LeaderMiddleware::class])->group(function () {
 });
 
 Route::middleware(['auth', MemberMiddleware::class])->group(function () {
-    Route::get('/member/dashboard', function () {
-        return view('member.index');
-    });
+
+    Route::get('dashboard/member', [MemberDashboardController::class, 'index'])->name('member.dashboard');
+    Route::get('transaction/history', [SaleController::class, 'history'])->name('member.transaction');
+    Route::get('/transaction/history/detail/{id}', [SaleController::class, 'show'])->name('sale.show');
 });

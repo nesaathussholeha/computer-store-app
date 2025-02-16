@@ -11,7 +11,7 @@
         <!-- Dashboard -->
         <!-- =================== -->
         <li class="sidebar-item">
-            <a class="sidebar-link" href="{{ route('cashier.dashboard') }}" aria-expanded="false">
+            <a class="sidebar-link" href="{{ route('admin.dashboard') }}" aria-expanded="false">
                 <span>
                     <i class="ti ti-aperture"></i>
                 </span>
@@ -24,23 +24,12 @@
             <span class="hide-menu">Master</span>
         </li>
         <li class="sidebar-item">
-            <a class="sidebar-link {{ request()->routeIs('member.index') ? 'active' : '' }}"
-                href="{{ route('member.index') }}" aria-expanded="false">
+            <a class="sidebar-link {{ request()->routeIs('member.transaction') ? 'active' : '' }}"
+                href="{{ route('member.transaction') }}" aria-expanded="false">
                 <span>
                     <i class="ti ti-shopping-cart"></i>
                 </span>
-                <span class="hide-menu">Member</span>
+                <span class="hide-menu">Riwayat Pembelian</span>
             </a>
         </li>
-
-        <li class="sidebar-item">
-            <a class="sidebar-link {{ request()->routeIs('sale.index') ? 'active' : '' }}"
-                href="{{ route('sale.index') }}" aria-expanded="false">
-                <span>
-                    <i class="ti ti-shopping-cart"></i>
-                </span>
-                <span class="hide-menu">Penjualan</span>
-            </a>
-        </li>
-
 </nav>

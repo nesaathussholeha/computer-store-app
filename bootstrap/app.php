@@ -17,7 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
             'cashier' => \App\Http\Middleware\CashierMiddleware::class,
             'leader' => \App\Http\Middleware\LeaderMiddleware::class,
-            'member' => \App\Http\Middleware\MemberMiddleware::class,
+            'member' => \App\Http\Middleware\MemberMiddleware::class, 
 
         ]);
     })

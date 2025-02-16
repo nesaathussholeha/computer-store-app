@@ -8,7 +8,10 @@ use App\Http\Requests\UpdateSaleRequest;
 use App\Models\Member;
 use App\Models\Product;
 use App\Models\SaleDetail;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class SaleController extends Controller
 {
@@ -17,7 +20,8 @@ class SaleController extends Controller
      */
     public function index()
     {
-        return view('cashier.sales.index');
+        $sales = Sale::with('member.user')->latest()->paginate(10);
+        return view('cashier.sales.index', compact('sales'));
     }
 
     /**
@@ -34,16 +38,8 @@ class SaleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreSaleRequest $request)
     {
-        $request->validate([
-            'member_id' => 'nullable|exists:members,id',
-            'products' => 'required|array',
-            'products.*.product_id' => 'required|exists:products,id',
-            'products.*.quantity' => 'required|integer|min:1',
-            'amount_paid' => 'required|integer|min:0',
-        ]);
-
         // Cek apakah ada member (jika iya, dapat diskon 10%)
         $isMember = !empty($request->member_id);
         $discountRate = $isMember ? 0.10 : 0.00;
@@ -65,7 +61,7 @@ class SaleController extends Controller
         // Simpan transaksi penjualan
         $sale = Sale::create([
             'member_id' => $request->member_id,
-            'total_price' => $totalPrice, // Sudah dihitung sebelum insert
+            'total_price' => $totalPrice,
             'paid_amount' => $request->amount_paid,
             'change_amount' => max($request->amount_paid - $totalPrice, 0), // Pastikan tidak negatif
         ]);
@@ -75,6 +71,12 @@ class SaleController extends Controller
             $product = Product::findOrFail($productData['product_id']);
             $subtotal = $product->price * $productData['quantity'];
 
+            // Cek apakah stok mencukupi
+            if ($product->stock < $productData['quantity']) {
+                return redirect()->back()->with('error', 'Stok tidak mencukupi untuk produk ' . $product->name);
+            }
+
+            // Simpan detail transaksi
             SaleDetail::create([
                 'sale_id' => $sale->id,
                 'product_id' => $product->id,
@@ -94,14 +96,38 @@ class SaleController extends Controller
     }
 
 
+    public function history()
+    {
+        $user = Auth::user(); // Ambil user yang login
+
+        // Cek apakah user memiliki data member
+        if (!$user->member) {
+            return back()->with('error', 'Anda bukan member.');
+        }
+
+        $memberId = $user->member->id; // Ambil ID member dari user yang login
+
+        $sales = Sale::where('member_id', $memberId)
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->groupBy(function ($sale) {
+                return $sale->created_at->format('Y-m-d'); // Kelompokkan berdasarkan tanggal transaksi
+            });
+
+        return view('member.history.index', compact('sales'));
+    }
+
+
 
     /**
      * Display the specified resource.
      */
-    public function show(Sale $sale)
+    public function show($id)
     {
-        //
+        $sale = Sale::with('saleDetails.product')->findOrFail($id);
+        return view('member.history.detail', compact('sale'));
     }
+
 
     /**
      * Show the form for editing the specified resource.

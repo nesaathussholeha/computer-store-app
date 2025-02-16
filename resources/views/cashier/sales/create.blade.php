@@ -1,5 +1,14 @@
 @extends('cashier.layouts.app')
 @section('content')
+@if ($errors->any())
+<div class="alert alert-danger">
+    <ul>
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
     <form action="{{ route('sale.store') }}" method="POST">
         @csrf
 
@@ -12,12 +21,20 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Member</label>
-                            <select name="member_id" class="select2 form-select">
+                            <select name="member_id" class="select2 form-select @error('member_id') is-invalid @enderror">
                                 <option value="">Bukan Member</option>
                                 @foreach ($members as $member)
-                                    <option value="{{ $member->id }}">{{ $member->user->name }}</option>
+                                    <option value="{{ $member->id }}"
+                                        {{ old('member_id') == $member->id ? 'selected' : '' }}>
+                                        {{ $member->user->name }}
+                                    </option>
                                 @endforeach
                             </select>
+                            @error('member_id')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+
+
                         </div>
                     </div>
 
@@ -30,23 +47,33 @@
                                         <select name="products[][product_id]" class="select2 form-select product-select">
                                             <option selected>Pilih Produk...</option>
                                             @foreach ($products as $product)
-                                                <option value="{{ $product->id }}" data-price="{{ $product->price }}">
+                                                <option value="{{ $product->id }}" data-price="{{ $product->price }}"
+                                                    {{ old('products.*.product_id') == $product->id ? 'selected' : '' }}>
                                                     {{ $product->name }}
                                                 </option>
                                             @endforeach
                                         </select>
+                                        @error('products.*.product_id')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+
                                     </div>
 
                                     <div class="col-md-3">
                                         <label class="form-label">Jumlah<small class="text-danger">*</small></label>
                                         <input type="number" name="products[][quantity]"
-                                            class="form-control quantity-input" min="1" value="1">
+                                            class="form-control quantity-input" min="1"
+                                            value="{{ old('products.*.quantity', 1) }}">
+                                        @error('products.*.quantity')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+
                                     </div>
 
                                     <div class="col-md-4">
                                         <label class="form-label">Harga</label>
-                                        <input type="number" class="form-control price-input" name="products[][price]"
-                                            placeholder="Masukkan harga produk" readonly>
+                                        <input type="number" class="form-control price-input" placeholder="Harga" name="products[][price]"
+                                             disabled>
                                     </div>
 
                                     <div class="col-md-1 d-flex align-items-end">
@@ -79,18 +106,22 @@
                         <div class="col-md-4">
                             <label class="form-label">Total</label>
                             <input type="number" class="form-control" name="total_price" id="total-price"
-                                placeholder="Total harga" readonly>
+                                placeholder="Total harga" disabled>
 
                         </div>
                         <div class="col-md-4">
                             <label class="form-label">Uang yang dibayarkan<small class="text-danger">*</small></label>
                             <input type="number" class="form-control" name="amount_paid" id="amount-paid"
-                                placeholder="Masukkan uang yang dibayarkan">
+                                placeholder="Masukkan uang yang dibayarkan" value="{{ old('amount_paid') }}">
+                            @error('amount_paid')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+
                         </div>
                         <div class="col-md-4">
                             <label class="form-label">Kembalian</label>
                             <input type="number" class="form-control" name="change_amount" id="change-amount"
-                                placeholder="Kembalian" readonly>
+                                placeholder="Kembalian" disabled>
                         </div>
                     </div>
 

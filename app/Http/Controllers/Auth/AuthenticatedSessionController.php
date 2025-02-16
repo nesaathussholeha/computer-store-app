@@ -36,7 +36,7 @@ class AuthenticatedSessionController extends Controller
         } elseif ($request->user()->role === 'leader') {
             return redirect('leader/dashboard');
         } elseif ($request->user()->role === 'member') {
-            return redirect('member/dashboard');
+            return redirect('dashboard/member');
         }
 
 
