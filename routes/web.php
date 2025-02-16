@@ -47,16 +47,20 @@ Route::middleware(['auth', CashierMiddleware::class])->group(function () {
     Route::get('/cashier/dashboard', function () {
         return view('cashier.index');
     })->name('cashier.dashboard');
+
     Route::resource('member', MemberController::class);
     Route::resource('sale', SaleController::class);
     Route::get('list/product', [ProductController::class, 'show'])->name('product.list');
-
 });
 
 Route::middleware(['auth', LeaderMiddleware::class])->group(function () {
     Route::get('/leader/dashboard', function () {
         return view('leader.index');
     });
+
+    Route::get('report/purchase', [PurchaseController::class, 'purchaseReport'])->name('report.purchase');
+    Route::get('/leader/purchase/download', [PurchaseController::class, 'downloadReport'])->name('purchase.download');
+
 });
 
 Route::middleware(['auth', MemberMiddleware::class])->group(function () {

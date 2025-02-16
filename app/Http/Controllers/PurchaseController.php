@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
+
 class PurchaseController extends Controller
 {
     /**
@@ -94,6 +95,53 @@ class PurchaseController extends Controller
     {
         //
     }
+
+    public function purchaseReport(Request $request)
+    {
+        $query = Purchase::with(['supplier', 'purchaseDetails.product']);
+
+        // Filter berdasarkan tanggal hanya jika start_date dan end_date diisi
+        if ($request->filled('start_date') && $request->filled('end_date')) {
+            $query->whereBetween('tgl_beli', [$request->start_date, $request->end_date]);
+        }
+
+        $purchases = $query->get();
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+
+        return view('leader.purchase.index', compact('purchases', 'start_date', 'end_date'));
+    }
+
+
+    public function downloadReport(Request $request)
+    {
+        $query = Purchase::with(['supplier', 'purchaseDetails.product']);
+
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+
+        if ($start_date && $end_date) {
+            $query->whereBetween('tgl_beli', [$start_date, $end_date]);
+        }
+
+        $purchases = $query->get();
+
+        // Hitung subtotal untuk setiap pembelian
+        foreach ($purchases as $purchase) {
+            $purchase->subtotal = $purchase->purchaseDetails->sum('sub_total');
+        }
+
+        // Hitung total semua pembelian
+        $total = $purchases->sum('subtotal');
+
+        $pdf = app('dompdf.wrapper');
+        $pdf->loadView('leader.pdf.reportPurchase', compact('purchases', 'start_date', 'end_date', 'total'));
+        return $pdf->download('laporan_pembelian.pdf');
+    }
+
+
+
+
 
     /**
      * Show the form for editing the specified resource.
@@ -229,5 +277,4 @@ class PurchaseController extends Controller
 
         return redirect()->route('product.index')->with('success', 'Data pembelian dan produk terkait berhasil dihapus!');
     }
-
 }
