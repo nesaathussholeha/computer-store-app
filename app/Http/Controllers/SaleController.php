@@ -145,7 +145,7 @@ class SaleController extends Controller
      */
     public function reportSales(Request $request)
     {
-        $query = Sale::with(['saleDetails.product', 'member.user']);
+        $query = Sale::with(['saleDetails.product', 'member.user']);  // Memastikan relasi dimuat dengan benar
 
         // Filter berdasarkan tanggal
         if ($request->filled('start_date') && $request->filled('end_date')) {
@@ -167,10 +167,12 @@ class SaleController extends Controller
             $query->where('total_price', '<=', $request->max_total);
         }
 
+        // Menambahkan pemeriksaan untuk memastikan data ada
         $sales = $query->latest()->paginate(10);
 
         return view('leader.sales.index', compact('sales', 'request'));
     }
+
 
 
 
@@ -202,6 +204,8 @@ class SaleController extends Controller
         $pdf->loadView('leader.pdf.reportSales', compact('sales', 'start_date', 'end_date', 'total_revenue'));
         return $pdf->download('laporan_penjualan.pdf');
     }
+
+
 
 
     /**

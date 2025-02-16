@@ -50,23 +50,20 @@
         </thead>
         <tbody>
             @foreach ($sales as $index => $sale)
-                @foreach ($sale->saleDetails as $key => $detail)
-                    <tr>
-                        @if ($key == 0)
-                            <td rowspan="{{ $sale->saleDetails->count() }}">{{ $index + 1 }}</td>
-                            <td rowspan="{{ $sale->saleDetails->count() }}">{{ $sale->member->user->name }}</td>
-                        @endif
-                        <td>{{ $detail->product->name }}</td>
-                        <td>Rp {{ number_format($detail->product->price, 0, ',', '.') }}</td>
-                        <td>{{ $detail->quantity }}</td>
-                        <td>Rp {{ number_format($detail->subtotal, 0, ',', '.') }}</td>
-                        @if ($key == 0)
-                            <td rowspan="{{ $sale->saleDetails->count() }}">
-                                {{ \Carbon\Carbon::parse($sale->created_at)->format('d-m-Y') }}
-                            </td>
-                        @endif
-                    </tr>
+                @foreach ($sales as $sale)
+                    @foreach ($sale->saleDetails as $detail)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $sale->member->user->name ?? 'No Name' }}</td>
+                            <td>{{ $detail->product->name }}</td>
+                            <td>Rp {{ number_format($detail->product->price, 0, ',', '.') }}</td>
+                            <td>{{ $detail->quantity }}</td>
+                            <td>Rp {{ number_format($detail->subtotal, 0, ',', '.') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($sale->created_at)->format('d M Y H:i') }}</td>
+                        </tr>
+                    @endforeach
                 @endforeach
+
                 <!-- Baris subtotal untuk setiap transaksi -->
                 <tr>
                     <td colspan="5" style="text-align: right; font-weight: bold;">Subtotal:</td>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\LeaderDashboardController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\MemberDashboardController;
 use App\Http\Controllers\ProductController;
@@ -56,15 +57,13 @@ Route::middleware(['auth', CashierMiddleware::class])->group(function () {
 
 
 Route::middleware(['auth', LeaderMiddleware::class])->group(function () {
-    Route::get('/leader/dashboard', function () {
-        return view('leader.index');
-    })->name('dashboard.leader');
+
+    Route::get('/leader/dashboard', [LeaderDashboardController::class, 'index'])->name('dashboard.leader');
 
     Route::get('report/purchase', [PurchaseController::class, 'purchaseReport'])->name('report.purchase');
     Route::get('/leader/purchase/download', [PurchaseController::class, 'downloadReport'])->name('purchase.download');
 
     Route::get('report/sales', [SaleController::class, 'reportSales'])->name('report.sale');
-
     Route::get('report/sales/download', [SaleController::class, 'downloadReport'])->name('sales.download');
 });
 

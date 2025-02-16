@@ -89,17 +89,18 @@
                             <tr>
                                 @if ($key == 0)
                                     <td rowspan="{{ $rowspan }}">{{ $index + 1 }}</td>
-                                    <td rowspan="{{ $rowspan }}">{{ $sale->member->user->name }}</td>
+                                    <td rowspan="{{ $rowspan }}">
+                                        {{ $sale->member->user->name ?? 'No Name' }}
+                                        <!-- Add a fallback in case 'user' is null -->
+                                    </td>
                                 @endif
                                 <td>{{ $detail->product->name }}</td>
                                 <td>Rp {{ number_format($detail->product->price, 0, ',', '.') }}</td>
-                                <td>{{ $detail->quantity }}</td> <!-- Menampilkan jumlah yang dibeli -->
+                                <td>{{ $detail->quantity }}</td>
                                 <td>Rp {{ number_format($detail->subtotal, 0, ',', '.') }}</td>
-                                <!-- Menampilkan total harga -->
                                 @if ($key == 0)
                                     <td rowspan="{{ $rowspan }}">
                                         {{ \Carbon\Carbon::parse($sale->created_at)->format('d M Y H:i') }}
-                                        <!-- Tanggal transaksi -->
                                     </td>
                                 @endif
                             </tr>
@@ -107,7 +108,7 @@
                     @else
                         <tr>
                             <td>{{ $index + 1 }}</td>
-                            <td>{{ $sale->member->user->name }}</td>
+                            <td>{{ $sale->member->user->name ?? 'No Name' }}</td>
                             <td colspan="5" class="text-center">Tidak ada produk</td>
                         </tr>
                     @endif
@@ -116,6 +117,7 @@
                         <td colspan="7" class="text-center">Data tidak ditemukan</td>
                     </tr>
                 @endforelse
+
             </tbody>
 
         </table>
