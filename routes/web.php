@@ -53,6 +53,7 @@ Route::middleware(['auth', CashierMiddleware::class])->group(function () {
     Route::get('list/product', [ProductController::class, 'show'])->name('product.list');
 });
 
+
 Route::middleware(['auth', LeaderMiddleware::class])->group(function () {
     Route::get('/leader/dashboard', function () {
         return view('leader.index');
@@ -71,4 +72,6 @@ Route::middleware(['auth', MemberMiddleware::class])->group(function () {
     Route::get('dashboard/member', [MemberDashboardController::class, 'index'])->name('member.dashboard');
     Route::get('transaction/history', [SaleController::class, 'history'])->name('member.transaction');
     Route::get('/transaction/history/detail/{id}', [SaleController::class, 'show'])->name('sale.show');
+    Route::get('/list/product/member', [ProductController::class, 'productMember'])->name('product.member.show');
+
 });

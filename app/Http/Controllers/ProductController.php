@@ -71,6 +71,22 @@ class ProductController extends Controller
         return view('cashier.product.index', compact('products'));
     }
 
+    public function productMember(Request $request)
+    {
+        // Mendapatkan query pencarian dari parameter request
+        $search = $request->input('search');
+
+        // Jika ada pencarian, filter produk berdasarkan nama
+        $products = Product::when($search, function ($query, $search) {
+            return $query->where('name', 'like', '%' . $search . '%');
+        })
+            // Menambahkan pagination, 10 produk per halaman
+            ->paginate(10);
+
+        return view('member.product.index', compact('products'));
+    }
+
+
     /**
      * Show the form for editing the specified resource.
      */

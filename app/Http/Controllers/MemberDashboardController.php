@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class MemberDashboardController extends Controller
@@ -11,7 +12,8 @@ class MemberDashboardController extends Controller
      */
     public function index()
     {
-        return view('member.index');
+        $products = Product::latest()->take(3)->get();
+        return view('member.index', compact('products'));
     }
 
     /**

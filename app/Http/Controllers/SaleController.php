@@ -96,7 +96,7 @@ class SaleController extends Controller
     }
 
 
-    public function history()
+    public function history(Request $request)
     {
         $user = Auth::user(); // Ambil user yang login
 
@@ -107,15 +107,27 @@ class SaleController extends Controller
 
         $memberId = $user->member->id; // Ambil ID member dari user yang login
 
-        $sales = Sale::where('member_id', $memberId)
-            ->orderBy('created_at', 'desc')
-            ->get()
+        $salesQuery = Sale::where('member_id', $memberId)
+            ->orderBy('created_at', 'desc');
+
+        // Filter berdasarkan tanggal mulai
+        if ($request->has('start_date') && $request->start_date) {
+            $salesQuery->whereDate('created_at', '>=', $request->start_date);
+        }
+
+        // Filter berdasarkan tanggal akhir
+        if ($request->has('end_date') && $request->end_date) {
+            $salesQuery->whereDate('created_at', '<=', $request->end_date);
+        }
+
+        $sales = $salesQuery->get()
             ->groupBy(function ($sale) {
                 return $sale->created_at->format('Y-m-d'); // Kelompokkan berdasarkan tanggal transaksi
             });
 
         return view('member.history.index', compact('sales'));
     }
+
 
 
 

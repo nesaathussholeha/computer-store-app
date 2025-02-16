@@ -1,37 +1,41 @@
 @extends('member.layouts.app')
 @section('content')
-    <div class="row">
-        <div class="col-lg-12 d-flex align-items-stretch">
-            <div class="card w-100 bg-light-info overflow-hidden shadow-none">
-                <div class="card-body position-relative">
-                    <div class="row">
-                        <div class="col-sm-7">
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="rounded-circle overflow-hidden me-6">
-                                    <img src="{{ asset('assets/dist/images/profile/empty-user.jpg') }}" alt=""
-                                        width="40" height="40">
-                                </div>
-                                <h5 class="fw-semibold mb-0 fs-5">Selamat Datang {{ auth()->user()->name }}!</h5>
-                            </div>
-                            <p>Selamat datang di akun member Anda! Nikmati promo eksklusif, akses mudah ke produk terbaru,
-                                dan berbagai keuntungan lainnya hanya di Toko Komputer kami!</p>
-                        </div>
-                        <div class="col-sm-5">
-                            <div class="welcome-bg-img mb-n7 text-end">
-                                <img src="https://demos.adminmart.com/premium/bootstrap/modernize-bootstrap/package/dist/images/backgrounds/welcome-bg.svg"
-                                    alt="" class="img-fluid">
-                            </div>
-                        </div>
+    <div class="card bg-light-info shadow-none position-relative overflow-hidden">
+        <div class="card-body px-4 py-3">
+            <div class="row align-items-center">
+                <div class="col-9">
+                    <h4 class="fw-semibold mb-8">Produk</h4>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a class="text-muted " href="{{ route('member.dashboard') }}">Beranda</a>
+                            </li>
+                            <li class="breadcrumb-item" aria-current="page">Produk</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="col-3">
+                    <div class="text-center mb-n5">
+                        <img src="{{ asset('assets/dist/images/breadcrumb/ChatBc.png') }}" alt=""
+                            class="img-fluid mb-n4">
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <h4 class="mb-3">Produk Terbaru Kami</h4>
+    <div class="row g-4 mb-3 d-flex justify-content-between align-items-center">
+        <div class="col-sm-auto">
+            <!-- Form Pencarian -->
+            <form action="{{ route('product.member.show') }}" method="GET" class="mb-3 d-flex gap-2">
+                <input type="text" name="search" class="form-control" placeholder="Cari produk..."
+                    value="{{ request('search') }}">
+                <button type="submit" class="btn btn-primary">Cari</button>
+            </form>
+        </div>
+    </div>
 
     <div class="row">
-        @foreach ($products->take(3) as $product)
+        @forelse ($products as $product)
             <div class="col-lg-4">
                 <div class="card">
                     <img class="card-img-top img-fluid"
@@ -71,13 +75,16 @@
                     </div>
                 </div>
             </div>
-        @endforeach
+        @empty
+            <div class="col-12">
+                <p class="text-center text-muted">Tidak ada produk yang tersedia.</p>
+            </div>
+        @endforelse
     </div>
 
-    @if ($products->count() > 3)
-        <div class="text-center mt-4">
-            <a href="{{ route('member.index') }}" class="btn btn-outline-primary">Lihat Produk Lainnya</a>
-        </div>
-    @endif
 
+    <!-- Pagination -->
+    <div class="d-flex justify-content-center">
+        {{ $products->links() }}
+    </div>
 @endsection
