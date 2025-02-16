@@ -1,14 +1,23 @@
 @extends('cashier.layouts.app')
 @section('content')
-@if ($errors->any())
-<div class="alert alert-danger">
-    <ul>
-        @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-</div>
-@endif
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="text-bold">{{ \Carbon\Carbon::now()->locale('id')->isoFormat('D MMMM YYYY') }}</h4>
+        <div class="text-end">
+            <h4>{{ \Carbon\Carbon::now()->locale('id')->isoFormat('HH:mm') }}</h4>
+        </div>
+    </div>
+
+
+
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <form action="{{ route('sale.store') }}" method="POST">
         @csrf
 
@@ -19,8 +28,8 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Member</label>
+                        <div class="col-md-12 mb-5">
+                            <label class="form-label">Member<small class="text-danger">*</small></label>
                             <select name="member_id" class="select2 form-select @error('member_id') is-invalid @enderror">
                                 <option value="">Bukan Member</option>
                                 @foreach ($members as $member)
@@ -33,8 +42,6 @@
                             @error('member_id')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-
-
                         </div>
                     </div>
 
@@ -56,7 +63,6 @@
                                         @error('products.*.product_id')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
-
                                     </div>
 
                                     <div class="col-md-3">
@@ -67,13 +73,12 @@
                                         @error('products.*.quantity')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
-
                                     </div>
 
                                     <div class="col-md-4">
                                         <label class="form-label">Harga</label>
-                                        <input type="number" class="form-control price-input" placeholder="Harga" name="products[][price]"
-                                             disabled>
+                                        <input type="number" class="form-control price-input" placeholder="Harga"
+                                            name="products[][price]" disabled>
                                     </div>
 
                                     <div class="col-md-1 d-flex align-items-end">
@@ -135,6 +140,11 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+            function formatNumber(number) {
+                // Format angka sesuai dengan format Indonesia
+                return new Intl.NumberFormat('id-ID').format(number);
+            }
+
             function updatePriceAndTotal() {
                 let totalPrice = 0;
                 let isMember = document.querySelector("select[name='member_id']").value !== "";
@@ -146,12 +156,11 @@
 
                     if (productSelect && quantityInput && priceInput) {
                         let selectedOption = productSelect.options[productSelect.selectedIndex];
-                        let productPrice = selectedOption.dataset.price ? parseFloat(selectedOption.dataset
-                            .price) : 0;
+                        let productPrice = selectedOption.dataset.price ? parseFloat(selectedOption.dataset.price) : 0;
                         let quantity = parseInt(quantityInput.value) || 1;
                         let totalItemPrice = productPrice * quantity;
 
-                        priceInput.value = totalItemPrice;
+                        priceInput.value = formatNumber(totalItemPrice.toFixed(0)); // Membulatkan harga produk dan format
                         totalPrice += isNaN(totalItemPrice) ? 0 : totalItemPrice;
                     }
                 });
@@ -161,20 +170,19 @@
                     totalPrice *= 0.9;
                 }
 
-                document.getElementById('total-price').value = totalPrice.toFixed(2);
+                document.getElementById('total-price').value = formatNumber(totalPrice.toFixed(0)); // Membulatkan total harga dan format
                 updateChangeAmount();
             }
 
             function updateChangeAmount() {
-                let totalPrice = parseFloat(document.getElementById('total-price').value) || 0;
-                let amountPaid = parseFloat(document.getElementById('amount-paid').value) || 0;
+                let totalPrice = parseFloat(document.getElementById('total-price').value.replace(/\./g, '')) || 0;
+                let amountPaid = parseFloat(document.getElementById('amount-paid').value.replace(/\./g, '')) || 0;
                 let changeAmount = amountPaid - totalPrice;
-                document.getElementById('change-amount').value = Math.max(changeAmount, 0).toFixed(2);
+                document.getElementById('change-amount').value = formatNumber(Math.max(changeAmount, 0).toFixed(0)); // Format kembalian
             }
 
             document.addEventListener('change', function(event) {
-                if (event.target.classList.contains('product-select') || event.target.classList.contains(
-                        'quantity-input') || event.target.name === 'member_id') {
+                if (event.target.classList.contains('product-select') || event.target.classList.contains('quantity-input') || event.target.name === 'member_id') {
                     updatePriceAndTotal();
                 } else if (event.target.id === 'amount-paid') {
                     updateChangeAmount();
@@ -198,4 +206,5 @@
             });
         });
     </script>
+
 @endsection

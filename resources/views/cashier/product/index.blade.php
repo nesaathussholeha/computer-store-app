@@ -39,11 +39,24 @@
         <table class="table border text-nowrap customize-table mb-0 align-middle">
             <thead class="text-dark fs-4">
                 <tr>
-                    <th><h6 class="fs-4 fw-semibold mb-0">No</h6></th>
-                    <th><h6 class="fs-4 fw-semibold mb-0">Gambar</h6></th>
-                    <th><h6 class="fs-4 fw-semibold mb-0">Nama</h6></th>
-                    <th><h6 class="fs-4 fw-semibold mb-0">Stok</h6></th>
-                    <th><h6 class="fs-4 fw-semibold mb-0">Harga</h6></th>
+                    <th>
+                        <h6 class="fs-4 fw-semibold mb-0">No</h6>
+                    </th>
+                    <th>
+                        <h6 class="fs-4 fw-semibold mb-0">Gambar</h6>
+                    </th>
+                    <th>
+                        <h6 class="fs-4 fw-semibold mb-0">Nama</h6>
+                    </th>
+                    <th>
+                        <h6 class="fs-4 fw-semibold mb-0">Stok</h6>
+                    </th>
+                    <th>
+                        <h6 class="fs-4 fw-semibold mb-0">Berat</h6>
+                    </th>
+                    <th>
+                        <h6 class="fs-4 fw-semibold mb-0">Harga</h6>
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -51,14 +64,18 @@
                     <tr>
                         <td>{{ $index + 1 }}</td>
                         <td>
-                            <img src="{{ asset('storage/' . $product->image) }}" alt="Gambar Produk"
-                                class="img-fluid rounded" width="50">
+                            <img src="{{ asset($product->image ? 'storage/' . $product->image : 'assets/dist/images/empty/images-empty.png') }}"
+                                alt="Gambar Produk" class="img-fluid rounded" width="100">
                         </td>
+
                         <td>
                             <h6 class="fs-4 fw-semibold mb-0">{{ $product->name }}</h6>
                         </td>
                         <td>
                             <p class="mb-0 fw-normal fs-4">{{ $product->stock }}</p>
+                        </td>
+                        <td>
+                            <p class="mb-0 fw-normal fs-4">{{ $product->weight }}</p>
                         </td>
                         <td>
                             <p class="mb-0 fw-normal fs-4">Rp {{ number_format($product->price, 0, ',', '.') }}</p>
