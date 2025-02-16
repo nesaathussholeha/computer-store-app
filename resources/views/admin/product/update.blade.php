@@ -37,14 +37,15 @@
     @endif
 
     <div class="col-12 col-lg-12">
-        <div class="card">
-            <div class="border-bottom title-part-padding">
-                <h4 class="card-title mb-0">Edit Data Pembelian</h4>
-            </div>
-            <div class="card-body">
-                <form action="{{ route('purchase.update', $purchase->id) }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    @method('PUT')
+        <form action="{{ route('purchase.update', $purchase->id) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
+            <div class="card">
+                <div class="border-bottom title-part-padding">
+                    <h4 class="card-title mb-0">Edit Data Supplier</h4>
+                </div>
+                <div class="card-body">
+
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
@@ -74,9 +75,15 @@
                         </div>
                     </div>
 
-                    <hr>
 
-                    <h5>Data Produk</h5>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="border-bottom title-part-padding">
+                    <h4 class="card-title mb-0">Edit Data Produk</h4>
+                </div>
+                <div class="card-body">
                     @foreach ($purchase->purchaseDetails as $detail)
                         <input type="hidden" name="details[{{ $loop->index }}][id]" value="{{ $detail->id }}">
 
@@ -137,9 +144,8 @@
 
                             <div class="col-md-12 mb-3">
                                 <label class="form-label">Deskripsi</label>
-                                <textarea class="form-control" name="details[{{ $loop->index }}][description]" rows="3">
-                                    {{ old('details.' . $loop->index . '.description', $detail->product->description) }}
-                                </textarea>
+                                <textarea class="form-control" name="[description]" rows="1" placeholder="Masukkan deskripsi produk...">{{ trim(old('details.' . $loop->index . '.description', $detail->product->description)) }}</textarea>
+
                             </div>
 
                         </div>
@@ -149,9 +155,9 @@
                     <div class="card-footer d-flex justify-content-end">
                         <button class="btn btn-success px-4" type="submit">Simpan Perubahan</button>
                     </div>
-                </form>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 @endsection
 

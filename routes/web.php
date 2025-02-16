@@ -56,7 +56,7 @@ Route::middleware(['auth', CashierMiddleware::class])->group(function () {
 Route::middleware(['auth', LeaderMiddleware::class])->group(function () {
     Route::get('/leader/dashboard', function () {
         return view('leader.index');
-    });
+    })->name('dashboard.leader');
 
     Route::get('report/purchase', [PurchaseController::class, 'purchaseReport'])->name('report.purchase');
     Route::get('/leader/purchase/download', [PurchaseController::class, 'downloadReport'])->name('purchase.download');

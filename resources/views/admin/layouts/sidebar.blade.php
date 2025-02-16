@@ -44,7 +44,7 @@
         </li>
 
         <li class="sidebar-item">
-            <a class="sidebar-link {{ request()->routeIs('product.index') ? 'active' : '' }}"
+            <a class="sidebar-link {{ request()->routeIs('product.index') || request()->routeIs('product.show') || request()->routeIs('product.create') || request()->routeIs('purchase.edit')|| request()->routeIs('purchase.show') || request()->routeIs('product.*') ? 'active' : '' }}"
                 href="{{ route('product.index') }}" aria-expanded="false">
                 <span>
                     <i class="ti ti-shopping-cart"></i>
@@ -52,6 +52,8 @@
                 <span class="hide-menu">Produk</span>
             </a>
         </li>
+
+
 
 
 </nav>

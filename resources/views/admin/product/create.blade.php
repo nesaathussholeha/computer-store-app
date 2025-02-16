@@ -37,13 +37,13 @@
     @endif
 
     <div class="col-12 col-lg-12">
-        <div class="card">
-            <div class="border-bottom title-part-padding">
-                <h4 class="card-title mb-0">Data Produk</h4>
-            </div>
-            <div class="card-body">
-                <form action="{{ route('purchase.store') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
+        <form action="{{ route('purchase.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="card">
+                <div class="border-bottom title-part-padding">
+                    <h4 class="card-title mb-0">Data Supplier</h4>
+                </div>
+                <div class="card-body">
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Supplier<small class="text-danger">*</small></label>
@@ -68,6 +68,15 @@
                         </div>
 
                     </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="border-bottom title-part-padding">
+                    <h4 class="card-title mb-0">Data Produk</h4>
+                </div>
+                <div class="card-body">
+
+
 
                     <div class="email-repeater mb-3">
                         <div data-repeater-list="products">
@@ -152,21 +161,19 @@
                     <div class="card-footer d-flex justify-content-end">
                         <button class="btn btn-success px-4" type="submit">Simpan</button>
                     </div>
-                </form>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 @endsection
 
 @section('script')
     <script>
         $(document).ready(function() {
-            // Inisialisasi Select2 pada elemen yang sudah ada
             $('.select2').select2({
                 width: '100%'
             });
 
-            // Reinitialize Select2 setelah elemen baru ditambahkan
             $('body').on('click', '[data-repeater-create]', function() {
                 setTimeout(function() {
                     $('.email-repeater .category-select').each(function() {

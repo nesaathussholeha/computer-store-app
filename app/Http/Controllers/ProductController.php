@@ -25,13 +25,15 @@ class ProductController extends Controller
             ->when($search, function ($query, $search) {
                 return $query->whereHas('supplier', function ($q) use ($search) {
                     $q->where('name', 'like', "%{$search}%");
+                })->orWhereHas('products', function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%");
                 });
             })
             ->paginate(10);
 
-
         return view('admin.product.index', compact('purchases'));
     }
+
 
 
 
