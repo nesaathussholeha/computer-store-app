@@ -128,6 +128,69 @@ class SaleController extends Controller
         return view('member.history.detail', compact('sale'));
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function reportSales(Request $request)
+    {
+        $query = Sale::with(['saleDetails.product', 'member.user']);
+
+        // Filter berdasarkan tanggal
+        if ($request->filled('start_date') && $request->filled('end_date')) {
+            $query->whereBetween('created_at', [$request->start_date, $request->end_date]);
+        }
+
+        // Filter berdasarkan nama member
+        if ($request->filled('member_name')) {
+            $query->whereHas('member.user', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->member_name . '%');
+            });
+        }
+
+        // Filter berdasarkan rentang total harga
+        if ($request->filled('min_total')) {
+            $query->where('total_price', '>=', $request->min_total);
+        }
+        if ($request->filled('max_total')) {
+            $query->where('total_price', '<=', $request->max_total);
+        }
+
+        $sales = $query->latest()->paginate(10);
+
+        return view('leader.sales.index', compact('sales', 'request'));
+    }
+
+
+
+    public function downloadReport(Request $request)
+    {
+        $query = Sale::with(['member.user', 'saleDetails.product']);
+
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+
+        // Filter berdasarkan tanggal
+        if ($start_date && $end_date) {
+            $query->whereBetween('created_at', [$start_date, $end_date]);
+        }
+
+        $sales = $query->get();
+
+        // Hitung subtotal untuk setiap penjualan
+        foreach ($sales as $sale) {
+            // Menghitung subtotal berdasarkan saleDetails
+            $sale->subtotal = $sale->saleDetails->sum('subtotal');
+        }
+
+        // Hitung total pendapatan untuk semua penjualan
+        $total_revenue = $sales->sum('subtotal');
+
+        // Generate PDF
+        $pdf = app('dompdf.wrapper');
+        $pdf->loadView('leader.pdf.reportSales', compact('sales', 'start_date', 'end_date', 'total_revenue'));
+        return $pdf->download('laporan_penjualan.pdf');
+    }
+
 
     /**
      * Show the form for editing the specified resource.

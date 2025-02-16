@@ -34,8 +34,8 @@
         </li>
 
         <li class="sidebar-item">
-            <a class="sidebar-link {{ request()->routeIs('sale.index') ? 'active' : '' }}"
-                href="{{ route('sale.index') }}" aria-expanded="false">
+            <a class="sidebar-link {{ request()->routeIs('report.sale') ? 'active' : '' }}"
+                href="{{ route('report.sale') }}" aria-expanded="false">
                 <span>
                     <i class="ti ti-shopping-cart"></i>
                 </span>
