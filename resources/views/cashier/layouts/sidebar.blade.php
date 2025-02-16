@@ -42,5 +42,14 @@
                 <span class="hide-menu">Penjualan</span>
             </a>
         </li>
+        <li class="sidebar-item">
+            <a class="sidebar-link {{ request()->routeIs('product.list') ? 'active' : '' }}"
+                href="{{ route('product.list') }}" aria-expanded="false">
+                <span>
+                    <i class="ti ti-shopping-cart"></i>
+                </span>
+                <span class="hide-menu">Produk</span>
+            </a>
+        </li>
 
 </nav>

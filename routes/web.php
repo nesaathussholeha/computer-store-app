@@ -49,6 +49,8 @@ Route::middleware(['auth', CashierMiddleware::class])->group(function () {
     })->name('cashier.dashboard');
     Route::resource('member', MemberController::class);
     Route::resource('sale', SaleController::class);
+    Route::get('list/product', [ProductController::class, 'show'])->name('product.list');
+
 });
 
 Route::middleware(['auth', LeaderMiddleware::class])->group(function () {

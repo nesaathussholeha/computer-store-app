@@ -29,6 +29,7 @@ class ProductController extends Controller
             })
             ->paginate(10);
 
+
         return view('admin.product.index', compact('purchases'));
     }
 
@@ -57,9 +58,15 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Product $product)
+    public function show(Request  $request)
     {
-        //
+        $search = $request->input('search');
+
+        $products = Product::when($search, function ($query, $search) {
+            return $query->where('name', 'like', "%{$search}%");
+        })
+            ->paginate(10);
+        return view('cashier.product.index', compact('products'));
     }
 
     /**
