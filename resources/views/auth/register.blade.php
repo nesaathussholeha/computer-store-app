@@ -14,7 +14,7 @@
             <div class="card">
                 <div class="card-body">
                     <a href="index-2.html" class="text-center d-block mb-5">
-                        <img src="https://demos.adminmart.com/premium/bootstrap/modernize-bootstrap/package/dist/images/logos/dark-logo.svg" width="180" alt="Modernize Logo">
+                        <img src="{{ asset('assets/dist/images/profile/logo.png') }}" width="180" alt="Modernize Logo">
                     </a>
                     <form method="POST" action="{{ route('register') }}">
                         @csrf

@@ -60,24 +60,13 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>
-                        <h6 class="fs-4 fw-semibold mb-0">No</h6>
-                    </th>
-                    <th>
-                        <h6 class="fs-4 fw-semibold mb-0">Supplier</h6>
-                    </th>
-                    <th>
-                        <h6 class="fs-4 fw-semibold mb-0">Produk</h6>
-                    </th>
-                    <th>
-                        <h6 class="fs-4 fw-semibold mb-0">Harga</h6>
-                    </th>
-                    <th>
-                        <h6 class="fs-4 fw-semibold mb-0">Stok</h6>
-                    </th>
-                    <th>
-                        <h6 class="fs-4 fw-semibold mb-0">Aksi</h6>
-                    </th>
+                    <th><h6 class="fs-4 fw-semibold mb-0">No</h6></th>
+                    <th><h6 class="fs-4 fw-semibold mb-0">Supplier</h6></th>
+                    <th><h6 class="fs-4 fw-semibold mb-0">Tanggal Beli</h6></th>
+                    <th><h6 class="fs-4 fw-semibold mb-0">Produk</h6></th>
+                    <th><h6 class="fs-4 fw-semibold mb-0">Harga</h6></th>
+                    <th><h6 class="fs-4 fw-semibold mb-0">Stok</h6></th>
+                    <th><h6 class="fs-4 fw-semibold mb-0">Aksi</h6></th>
                 </tr>
             </thead>
             <tbody>
@@ -89,14 +78,14 @@
                                 @if ($key == 0)
                                     <td rowspan="{{ $rowspan }}">{{ $index + 1 }}</td>
                                     <td rowspan="{{ $rowspan }}">{{ $purchase->supplier->name }}</td>
+                                    <td rowspan="{{ $rowspan }}">{{ \Carbon\Carbon::parse($purchase->tgl_beli)->format('d-m-Y') }}</td>
                                 @endif
                                 <td>{{ $detail->product->name }}</td>
                                 <td>Rp {{ number_format($detail->product->price, 0, ',', '.') }}</td>
                                 <td>{{ $detail->product->stock }}</td>
                                 @if ($key == 0)
                                     <td rowspan="{{ $rowspan }}">
-                                        <a href="{{ route('purchase.show', $purchase->id) }}"
-                                            class="btn btn-info btn-sm">Detail</a>
+                                        <a href="{{ route('purchase.show', $purchase->id) }}" class="btn btn-info btn-sm">Detail</a>
                                     </td>
                                 @endif
                             </tr>
@@ -105,22 +94,18 @@
                         <tr>
                             <td>{{ $index + 1 }}</td>
                             <td>{{ $purchase->supplier->name }}</td>
+                            <td>{{ \Carbon\Carbon::parse($purchase->tgl_beli)->format('d-m-Y') }}</td>
                             <td colspan="4" class="text-center">Tidak ada produk</td>
                         </tr>
                     @endif
                 @empty
                     <tr>
-                        <td colspan="6" class="text-center">Data tidak ditemukan</td>
+                        <td colspan="7" class="text-center">Data tidak ditemukan</td>
                     </tr>
                 @endforelse
             </tbody>
-
-
         </table>
-
-        {{-- <div class="d-flex justify-content-end mt-3">
-            <x-pagination :paginator="$purchases" />
-        </div> --}}
     </div>
+
 @endsection
 

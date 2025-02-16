@@ -17,7 +17,7 @@ use App\Http\Middleware\MemberMiddleware;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/login'); // Mengarahkan ke halaman login
 });
 
 Route::get('/dashboard', function () {

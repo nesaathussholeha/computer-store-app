@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Login | Modernize</title>
+    <title>Login | EVERTONE</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Modernize Login Page">
@@ -13,8 +13,8 @@
         <div class="col-md-8 col-lg-6 col-xxl-3">
             <div class="card">
                 <div class="card-body">
-                    <a href="index-2.html" class="text-center d-block mb-5">
-                        <img src="https://demos.adminmart.com/premium/bootstrap/modernize-bootstrap/package/dist/images/logos/dark-logo.svg" width="180" alt="Modernize Logo">
+                    <a href="javascript:void(0)" class="text-center d-block mb-5">
+                        <img src="{{ asset('assets/dist/images/profile/logo.png') }}" width="180" alt="Modernize Logo">
                     </a>
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
