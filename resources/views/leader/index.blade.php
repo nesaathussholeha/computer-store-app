@@ -72,7 +72,7 @@
                             <h5 class="card-title fw-semibold">Penjualan Hari Ini</h5>
                         </div>
                         <div class="mb-3 mb-sm-0">
-                            <p class="card-title fw-semibold">{{ \Carbon\Carbon::now()->format('d M Y') }}</p>
+                            <p class="card-title fw-semibold fs-3">{{ \Carbon\Carbon::now()->format('d M Y') }}</p>
                         </div>
                     </div>
 
@@ -85,23 +85,19 @@
                                     <th scope="col">Produk</th>
                                     <th scope="col">Jumlah Terjual</th>
                                     <th scope="col">Total Penjualan</th>
-                                    <th scope="col">Pembayaran</th>
                                 </tr>
                             </thead>
                             <tbody class="border-top">
-                                @foreach ($groupedSales as $sale)
+                                @forelse ($groupedSales as $sale)
                                     <tr>
                                         <td class="ps-0">
-
                                             <h6 class="fw-semibold mb-1">{{ $loop->iteration }}</h6>
-
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center">
                                                 <div>
                                                     <h6 class="fw-semibold mb-1">{{ $sale['product']->name }}</h6>
-                                                    <p class="fs-2 mb-0 text-muted">{{ $sale['product']->category->name }}
-                                                    </p>
+                                                    <p class="fs-2 mb-0 text-muted">{{ $sale['product']->category->name }}</p>
                                                 </div>
                                             </div>
                                         </td>
@@ -109,25 +105,18 @@
                                             <p class="mb-0 fs-3 text-dark">{{ $sale['quantity'] }}</p>
                                         </td>
                                         <td>
-                                            <p class="fs-3 text-dark mb-0">Rp.
-                                                {{ number_format($sale['subtotal'], 0, ',', '.') }}</p>
-                                        </td>
-
-                                        <td>
-                                            @if ($sale['paid_amount'] >= $sale['total_price'])
-                                                <span
-                                                    class="badge fw-semibold py-1 w-85 bg-light-success text-success">Selesai</span>
-                                            @else
-                                                <span
-                                                    class="badge fw-semibold py-1 w-85 bg-light-warning text-warning">Belum
-                                                    Lunas</span>
-                                            @endif
+                                            <p class="fs-3 text-dark mb-0">Rp. {{ number_format($sale['subtotal'], 0, ',', '.') }}</p>
                                         </td>
                                     </tr>
-                                @endforeach
+                                @empty
+                                    <tr>
+                                        <td colspan="4" class="text-center">Tidak ada data penjualan untuk hari ini.</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
+
                 </div>
             </div>
         </div>
