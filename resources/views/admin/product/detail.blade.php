@@ -1,27 +1,26 @@
 @extends('admin.layouts.app')
 
 @section('content')
-    <div class="card bg-light-info shadow-none position-relative overflow-hidden">
-        <div class="card-body px-4 py-3">
-            <div class="row align-items-center">
-                <div class="col-9">
-                    <h4 class="fw-semibold mb-8">{{ $purchase->supplier->name }}</h4>
-                </div>
-
-                <div class="col-3 text-end">
-                    <p class="mb-0"><strong>Tanggal Pembelian:</strong>
-                        {{ \Carbon\Carbon::parse($purchase->tgl_beli)->locale('id')->isoFormat('D MMMM YYYY') }}
-                    </p>
-                </div>
-
+<div class="card bg-light-info shadow-none position-relative overflow-hidden">
+    <div class="card-body px-4 py-3">
+        <div class="row align-items-center mb-3">
+            <div class="col-12 col-md-9">
+                <h4 class="fw-semibold mb-8">{{ $purchase->supplier->name }}</h4>
             </div>
-            <div class="row">
-                <div class="col-12">
-                    <p><strong>Total:</strong> Rp {{ number_format($purchase->total, 0, ',', '.') }}</p>
-                </div>
+
+            <div class="col-12 col-md-3 text-md-end text-center">
+                <p class="mb-0"><strong>Tanggal Pembelian:</strong>
+                    {{ \Carbon\Carbon::parse($purchase->tgl_beli)->locale('id')->isoFormat('D MMMM YYYY') }}
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <p><strong>Total:</strong> Rp {{ number_format($purchase->total, 0, ',', '.') }}</p>
             </div>
         </div>
     </div>
+</div>
 
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h4 class="text-bold">Detail Produk:</h4>

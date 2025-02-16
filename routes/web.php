@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\MemberDashboardController;
@@ -31,9 +32,9 @@ Route::middleware('auth')->group(function () {
 require __DIR__ . '/auth.php';
 
 Route::middleware(['auth', AdminMiddleware::class])->group(function () {
-    Route::get('/admin/dashboard', function () {
-        return view('admin.index');
-    })->name('admin.dashboard');
+
+    Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+
 
     Route::resource('category', CategoryController::class);
     Route::resource('supplier', SupplierController::class);
