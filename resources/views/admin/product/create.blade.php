@@ -84,14 +84,14 @@
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Kategori<small class="text-danger">*</small></label>
-                                    <select
-                                        class="select2 form-control @error('products.0.category_id') is-invalid @enderror"
-                                        name="[category_id]">
+                                    <select class="select2 form-control category-select" name="[category_id]">
                                         <option selected disabled>Pilih Kategori...</option>
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                                         @endforeach
                                     </select>
+
+
                                     @error('products.0.category_id')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -161,15 +161,15 @@
 @section('script')
     <script>
         $(document).ready(function() {
-            // Inisialisasi Select2 pada elemen yang ada
+            // Inisialisasi Select2 pada elemen yang sudah ada
             $('.select2').select2({
                 width: '100%'
             });
 
-            // Reinisialisasi Select2 saat item baru ditambahkan
+            // Reinitialize Select2 setelah elemen baru ditambahkan
             $('body').on('click', '[data-repeater-create]', function() {
                 setTimeout(function() {
-                    $('.email-repeater .select2').each(function() {
+                    $('.email-repeater .category-select').each(function() {
                         if (!$(this).hasClass("select2-hidden-accessible")) {
                             $(this).select2({
                                 width: '100%'

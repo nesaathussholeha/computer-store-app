@@ -26,8 +26,15 @@ class Purchase extends Model
         return $this->hasMany(PurchaseDetail::class);
     }
 
-    public function product()
+    public function products()
     {
-        return $this->hasMany(Product::class);
+        return $this->hasManyThrough(
+            Product::class,         // Model tujuan
+            PurchaseDetail::class,  // Model perantara
+            'purchase_id',          // FK di purchase_details ke purchases
+            'id',                   // PK di products
+            'id',                   // PK di purchases
+            'product_id'            // FK di purchase_details ke products
+        );
     }
 }

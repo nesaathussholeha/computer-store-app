@@ -25,8 +25,11 @@ class Product extends Model
     }
 
     public function purchase()
-{
-    return $this->belongsTo(Purchase::class);
-}
-
+    {
+        return $this->belongsTo(Purchase::class);
+    }
+    public function purchaseDetails()
+    {
+        return $this->hasMany(PurchaseDetail::class);
+    }
 }

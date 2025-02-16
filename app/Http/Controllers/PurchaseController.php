@@ -11,6 +11,7 @@ use App\Models\PurchaseDetail;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class PurchaseController extends Controller
 {
@@ -106,6 +107,7 @@ class PurchaseController extends Controller
         // Cek apakah ada product terkait
         $product = optional($purchase->purchaseDetails->first())->product;
 
+
         return view('admin.product.update', compact('purchase', 'suppliers', 'categories', 'product'));
     }
 
@@ -113,65 +115,94 @@ class PurchaseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePurchaseRequest $request, $id)
+    public function update(Request $request, Purchase $purchase)
     {
-        DB::beginTransaction();
+        $validated = $request->validate([
+            'supplier_id' => 'required|exists:suppliers,id',
+            'tgl_beli' => 'required|date',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'details.*.id' => 'nullable|exists:purchase_details,id',
+            'details.*.name' => 'required|string|max:255',
+            'details.*.category_id' => 'required|exists:categories,id',
+            'details.*.weight' => 'required|integer|min:1',
+            'details.*.price' => 'required|integer|min:0',
+            'details.*.stock' => 'required|integer|min:0',
+            'details.*.description' => 'nullable|string',
+        ]);
 
-        try {
-            $purchase = Purchase::findOrFail($id);
-            $purchase->update([
-                'supplier_id' => $request->supplier_id,
-                'tgl_beli' => $request->tgl_beli ?? now()->toDateString(),
-            ]);
-
-            $totalHarga = 0;
-            $purchase->purchaseDetails()->delete();
-
-            // Cek apakah $request->products ada dan tidak kosong
-            if (!empty($request->products) && is_array($request->products)) {
-                foreach ($request->products as $productData) {
-                    $product = Product::findOrFail($productData['id']);
-
-                    // Update data produk
-                    $imagePath = $product->image;
-                    if (!empty($productData['image']) && $productData['image']->isValid()) {
-                        $imagePath = $productData['image']->store('products', 'public');
-                    }
-
-                    $product->update([
-                        'category_id' => $productData['category_id'],
-                        'name' => $productData['name'],
-                        'description' => $productData['description'] ?? null,
-                        'weight' => $productData['weight'],
-                        'price' => $productData['price'],
-                        'stock' => $productData['stock'],
-                        'image' => $imagePath,
-                    ]);
-
-                    $subTotal = $productData['price'] * $productData['stock'];
-                    $totalHarga += $subTotal;
-
-                    PurchaseDetail::create([
-                        'purchase_id' => $purchase->id,
-                        'product_id' => $product->id,
-                        'jumlah_beli' => $productData['stock'],
-                        'sub_total' => $subTotal,
-                    ]);
-                }
-            } else {
-                return redirect()->back()->with('error', 'Tidak ada produk yang dikirim.');
+        #Update data purchase
+        if ($request->hasFile('image')) {
+            if ($purchase->image) {
+                Storage::delete($purchase->image);
             }
-
-            $purchase->update(['total' => $totalHarga]);
-
-            DB::commit();
-
-            return redirect()->route('product.index')->with('success', 'Data berhasil diperbarui.');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+            $validated['image'] = $request->file('image')->store('uploads/products');
         }
+
+        $purchase->update([
+            'supplier_id' => $validated['supplier_id'],
+            'tgl_beli' => $validated['tgl_beli'],
+            'image' => $validated['image'] ?? $purchase->image,
+        ]);
+
+        #Perhitungan ulang total
+        $total = 0;
+
+        foreach ($request->details as $detail) {
+            $purchaseDetail = PurchaseDetail::find($detail['id']);
+
+            if ($purchaseDetail) {
+                #Update produk & subtotal
+                $product = Product::updateOrCreate(
+                    ['id' => $purchaseDetail->product_id],
+                    [
+                        'name' => $detail['name'],
+                        'category_id' => $detail['category_id'],
+                        'weight' => $detail['weight'],
+                        'price' => $detail['price'],
+                        'stock' => $detail['stock'],
+                        'description' => $detail['description'] ?? null,
+                    ]
+                );
+
+                #Update purchase detail & subtotal
+                $purchaseDetail->update([
+                    'product_id' => $product->id,
+                    'jumlah_beli' => $detail['stock'], // Update jumlah beli dari stok
+                    'sub_total' => $detail['price'] * $detail['stock'], // Perhitungan ulang subtotal
+                ]);
+
+                // **Tambahkan ke total**
+                $total += $purchaseDetail->sub_total;
+            } else {
+                // **Tambah produk baru**
+                $product = Product::create([
+                    'name' => $detail['name'],
+                    'category_id' => $detail['category_id'],
+                    'weight' => $detail['weight'],
+                    'price' => $detail['price'],
+                    'stock' => $detail['stock'],
+                    'description' => $detail['description'] ?? null,
+                ]);
+
+                // **Tambah purchase detail baru**
+                $purchaseDetail = PurchaseDetail::create([
+                    'purchase_id' => $purchase->id,
+                    'product_id' => $product->id,
+                    'jumlah_beli' => $detail['stock'], // Sesuai jumlah beli
+                    'sub_total' => $detail['price'] * $detail['stock'], // Perhitungan subtotal
+                ]);
+
+                // **Tambahkan ke total**
+                $total += $purchaseDetail->sub_total;
+            }
+        }
+
+        // **Update total di purchases**
+        $purchase->update(['total' => $total]);
+
+        return redirect()->route('product.index')->with('success', 'Data pembelian berhasil diperbarui!');
     }
+
 
 
     /**
@@ -179,6 +210,24 @@ class PurchaseController extends Controller
      */
     public function destroy(Purchase $purchase)
     {
-        //
+        // Ambil semua product_id yang terkait sebelum menghapus purchase details
+        $productIds = $purchase->purchaseDetails()->pluck('product_id');
+
+        // Hapus semua detail pembelian terkait
+        $purchase->purchaseDetails()->delete();
+
+        // Hapus produk yang sudah tidak memiliki detail pembelian terkait
+        Product::whereIn('id', $productIds)->delete();
+
+        // Hapus gambar jika ada
+        if ($purchase->image) {
+            Storage::delete($purchase->image);
+        }
+
+        // Hapus data pembelian utama
+        $purchase->delete();
+
+        return redirect()->route('product.index')->with('success', 'Data pembelian dan produk terkait berhasil dihapus!');
     }
+
 }

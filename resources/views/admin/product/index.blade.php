@@ -95,21 +95,19 @@
 
     </div>
 
+
     <div class="table-responsive rounded-2 mb-4">
-        <table class="table border text-nowrap customize-table mb-0 align-middle">
-            <thead class="text-dark fs-4">
+        <table class="table table-bordered">
+            <thead>
                 <tr>
                     <th>
                         <h6 class="fs-4 fw-semibold mb-0">No</h6>
                     </th>
                     <th>
-                        <h6 class="fs-4 fw-semibold mb-0">Gambar</h6>
+                        <h6 class="fs-4 fw-semibold mb-0">Supplier</h6>
                     </th>
                     <th>
-                        <h6 class="fs-4 fw-semibold mb-0">Nama</h6>
-                    </th>
-                    <th>
-                        <h6 class="fs-4 fw-semibold mb-0">Kategori</h6>
+                        <h6 class="fs-4 fw-semibold mb-0">Produk</h6>
                     </th>
                     <th>
                         <h6 class="fs-4 fw-semibold mb-0">Harga</h6>
@@ -123,49 +121,68 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse ($products as $product)
-                    <tr>
-                        <td>{{ $products->firstItem() + $loop->iteration - 1 }}</td>
-                        <td>
-                            <img src="{{ asset('storage/' . $product->image) }}" class="rounded" width="50"
-                                height="50" alt="Gambar">
-                        </td>
-                        <td>
-                            <h6 class="fs-4 fw-semibold mb-0">{{ $product->name }}</h6>
-                        </td>
-                        <td>
-                            <p class="mb-0 fw-normal fs-4">{{ $product->category->name }}</p>
-                        </td>
-                        <td>
-                            <p class="mb-0 fw-normal fs-4">Rp {{ number_format($product->price, 0, ',', '.') }}</p>
-                        </td>
-                        <td>
-                            <p class="mb-0 fw-normal fs-4">{{ $product->stock }}</p>
-                        </td>
-                        <td>
-                            <a href="{{ route('purchase.edit', $product->id) }}" type="button" class="btn btn-sm btn-warning btn-edit">
-                                Edit
-                            </a>
-
-                            <button type="button" class="btn btn-sm btn-danger btn-delete" data-id="{{ $product->id }}">
-                                Hapus
-                            </button>
-                        </td>
-                    </tr>
+                @forelse ($purchases as $index => $purchase)
+                    @php $rowspan = $purchase->products->count(); @endphp
+                    @if ($rowspan > 0)
+                        @foreach ($purchase->products as $key => $product)
+                            <tr>
+                                @if ($key == 0)
+                                    <td rowspan="{{ $rowspan }}">{{ $index + 1 }}</td>
+                                    <td rowspan="{{ $rowspan }}">{{ $purchase->supplier->name }}</td>
+                                @endif
+                                <td>{{ $product->name }}</td>
+                                <td>Rp {{ number_format($product->price, 0, ',', '.') }}</td>
+                                <td>{{ $product->stock }}</td>
+                                @if ($key == 0)
+                                    <td rowspan="{{ $rowspan }}">
+                                        <a href="{{ route('purchase.show', $purchase->id) }}"
+                                            class="btn btn-info btn-sm">Detail</a>
+                                        <a href="{{ route('purchase.edit', $purchase->id) }}"
+                                            class="btn btn-warning btn-sm">Edit</a>
+                                        <form action="{{ route('purchase.destroy', $purchase->id) }}" method="POST"
+                                            class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm"
+                                                onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
+                                        </form>
+                                    </td>
+                                @endif
+                            </tr>
+                        @endforeach
+                    @else
+                        <tr>
+                            <td>{{ $index + 1 }}</td>
+                            <td>{{ $purchase->supplier->name }}</td>
+                            <td colspan="2" class="text-center">Tidak ada produk</td>
+                            <td>
+                                <a href="{{ route('purchase.show', $purchase->id) }}"
+                                    class="btn btn-info btn-sm">Detail</a>
+                                <a href="{{ route('purchase.edit', $purchase->id) }}"
+                                    class="btn btn-warning btn-sm">Edit</a>
+                                <form action="{{ route('purchase.destroy', $purchase->id) }}" method="POST"
+                                    class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm"
+                                        onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endif
                 @empty
                     <tr>
-                        <td colspan="7" class="text-center">Data Tidak Ditemukan</td>
+                        <td colspan="5" class="text-center">Tidak ada data pembelian</td>
                     </tr>
                 @endforelse
             </tbody>
+
         </table>
+
         <div class="d-flex justify-content-end mt-3">
-            <x-pagination :paginator="$products" />
+            <x-pagination :paginator="$purchases" />
         </div>
     </div>
 
-
-
     @include('components.delete-modal')
 @endsection
-
