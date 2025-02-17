@@ -75,9 +75,13 @@ class SupplierController extends Controller
      */
     public function destroy($id)
     {
-        $supplier = Supplier::findOrFail($id);
-        $supplier->delete();
+        try {
+            $supplier = Supplier::findOrFail($id);
+            $supplier->delete();
 
-        return to_route('supplier.index')->with('success', 'Data berhasil dihapus');
+            return to_route('supplier.index')->with('success', 'Data berhasil dihapus');
+        } catch (\Throwable $th) {
+            return to_route('supplier.index')->with('danger', 'Supplier masih digunakan');
+        }
     }
 }

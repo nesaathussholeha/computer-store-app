@@ -71,10 +71,14 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $category = Category::findOrFail($id);
+        try {
+            $category = Category::findOrFail($id);
 
-        $category->delete();
+            $category->delete();
 
-        return redirect()->route('category.index')->with('success', 'Kategori berhasil dihapus');
+            return redirect()->route('category.index')->with('success', 'Kategori berhasil dihapus');
+        } catch (\Throwable $th) {
+            return redirect()->route('category.index')->with('danger', 'Kategori masih digunakan');
+        }
     }
 }
