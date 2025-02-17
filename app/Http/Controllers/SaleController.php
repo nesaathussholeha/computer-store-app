@@ -48,9 +48,10 @@ class SaleController extends Controller
 
         foreach ($request->products as $productData) {
             $product = Product::findOrFail($productData['product_id']);
-            $subtotal = $product->price * $productData['quantity'];
+            $subtotal = $product->selling_price * $productData['quantity']; // Pastikan menggunakan selling_price
             $totalPrice += $subtotal;
         }
+
 
         // Terapkan diskon jika member
         if ($isMember) {
@@ -69,7 +70,8 @@ class SaleController extends Controller
         // Simpan detail transaksi & kurangi stok
         foreach ($request->products as $productData) {
             $product = Product::findOrFail($productData['product_id']);
-            $subtotal = $product->price * $productData['quantity'];
+            $subtotal = $product->selling_price * $productData['quantity'];
+
 
             // Cek apakah stok mencukupi
             if ($product->stock < $productData['quantity']) {
@@ -81,8 +83,9 @@ class SaleController extends Controller
                 'sale_id' => $sale->id,
                 'product_id' => $product->id,
                 'quantity' => $productData['quantity'],
-                'subtotal' => $subtotal,
+                'subtotal' => $product->selling_price * $productData['quantity'], // Pastikan menggunakan selling_price
             ]);
+
 
             // Kurangi stok produk
             $product->decrement('stock', $productData['quantity']);

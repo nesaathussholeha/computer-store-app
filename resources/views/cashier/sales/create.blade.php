@@ -54,7 +54,7 @@
                                         <select name="products[][product_id]" class="select2 form-select product-select">
                                             <option selected>Pilih Produk...</option>
                                             @foreach ($products as $product)
-                                                <option value="{{ $product->id }}" data-price="{{ $product->price }}"
+                                                <option value="{{ $product->id }}" data-price="{{ $product->selling_price }}"
                                                     {{ old('products.*.product_id') == $product->id ? 'selected' : '' }}>
                                                     {{ $product->name }}
                                                 </option>
@@ -78,7 +78,7 @@
                                     <div class="col-md-4">
                                         <label class="form-label">Harga</label>
                                         <input type="number" class="form-control price-input" placeholder="Harga"
-                                            name="products[][price]" disabled>
+                                            name="products[][selling_price]" disabled>
                                     </div>
 
                                     <div class="col-md-1 d-flex align-items-end">
@@ -156,11 +156,13 @@
 
                     if (productSelect && quantityInput && priceInput) {
                         let selectedOption = productSelect.options[productSelect.selectedIndex];
-                        let productPrice = selectedOption.dataset.price ? parseFloat(selectedOption.dataset.price) : 0;
+                        let productPrice = selectedOption.dataset.price ? parseFloat(selectedOption.dataset
+                            .price) : 0;
                         let quantity = parseInt(quantityInput.value) || 1;
                         let totalItemPrice = productPrice * quantity;
 
-                        priceInput.value = formatNumber(totalItemPrice.toFixed(0)); // Membulatkan harga produk dan format
+                        priceInput.value = formatNumber(totalItemPrice.toFixed(
+                        0)); // Membulatkan harga produk dan format
                         totalPrice += isNaN(totalItemPrice) ? 0 : totalItemPrice;
                     }
                 });
@@ -170,7 +172,8 @@
                     totalPrice *= 0.9;
                 }
 
-                document.getElementById('total-price').value = formatNumber(totalPrice.toFixed(0)); // Membulatkan total harga dan format
+                document.getElementById('total-price').value = formatNumber(totalPrice.toFixed(
+                0)); // Membulatkan total harga dan format
                 updateChangeAmount();
             }
 
@@ -178,11 +181,13 @@
                 let totalPrice = parseFloat(document.getElementById('total-price').value.replace(/\./g, '')) || 0;
                 let amountPaid = parseFloat(document.getElementById('amount-paid').value.replace(/\./g, '')) || 0;
                 let changeAmount = amountPaid - totalPrice;
-                document.getElementById('change-amount').value = formatNumber(Math.max(changeAmount, 0).toFixed(0)); // Format kembalian
+                document.getElementById('change-amount').value = formatNumber(Math.max(changeAmount, 0).toFixed(
+                0)); // Format kembalian
             }
 
             document.addEventListener('change', function(event) {
-                if (event.target.classList.contains('product-select') || event.target.classList.contains('quantity-input') || event.target.name === 'member_id') {
+                if (event.target.classList.contains('product-select') || event.target.classList.contains(
+                        'quantity-input') || event.target.name === 'member_id') {
                     updatePriceAndTotal();
                 } else if (event.target.id === 'amount-paid') {
                     updateChangeAmount();
