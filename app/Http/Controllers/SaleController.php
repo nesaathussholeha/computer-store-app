@@ -152,8 +152,12 @@ class SaleController extends Controller
 
         // Filter berdasarkan tanggal
         if ($request->filled('start_date') && $request->filled('end_date')) {
-            $query->whereBetween('created_at', [$request->start_date, $request->end_date]);
+            $query->whereBetween('created_at', [
+                \Carbon\Carbon::parse($request->start_date)->startOfDay(),
+                \Carbon\Carbon::parse($request->end_date)->endOfDay()
+            ]);
         }
+
 
         // Filter berdasarkan nama member
         if ($request->filled('member_name')) {
