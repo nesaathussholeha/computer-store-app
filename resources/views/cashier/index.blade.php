@@ -1,7 +1,7 @@
 @extends('cashier.layouts.app')
 @section('content')
     <div class="row">
-        <div class="col-lg-8 d-flex align-items-stretch">
+        <div class="col-lg-12 d-flex align-items-stretch">
             <div class="card w-100 bg-light-info overflow-hidden shadow-none">
                 <div class="card-body position-relative">
                     <div class="row">

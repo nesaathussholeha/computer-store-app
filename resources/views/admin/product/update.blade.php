@@ -112,21 +112,29 @@
                                 <input type="number" class="form-control" name="details[{{ $loop->index }}][weight]"
                                     value="{{ old('details.' . $loop->index . '.weight', $detail->product->weight) }}">
                             </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label">Harga<small class="text-danger">*</small></label>
-                                <input type="number" class="form-control" name="details[{{ $loop->index }}][price]"
-                                    value="{{ old('details.' . $loop->index . '.price', $detail->product->price) }}">
-                            </div>
-
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Stok<small class="text-danger">*</small></label>
                                 <input type="number" class="form-control" name="details[{{ $loop->index }}][stock]"
                                     value="{{ old('details.' . $loop->index . '.stock', $detail->product->stock) }}">
                             </div>
-
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Harga Beli<small class="text-danger">*</small></label>
+                                <input type="number" class="form-control" name="details[{{ $loop->index }}][price]"
+                                    value="{{ old('details.' . $loop->index . '.price', $detail->product->price) }}">
+                            </div>
 
                             <div class="col-md-6 mb-3">
+                                <label class="form-label">Harga Jual<small class="text-danger">*</small></label>
+                                <input type="number" class="form-control"
+                                    name="details[{{ $loop->index }}][selling_price]"
+                                    value="{{ old('details.' . $loop->index . '.selling_price', $detail->product->selling_price) }}">
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label class="form-label">Deskripsi</label>
+                                <textarea class="form-control" name="[description]" rows="3" placeholder="Masukkan deskripsi produk...">{{ trim(old('details.' . $loop->index . '.description', $detail->product->description)) }}</textarea>
+
+                            </div>
+                            <div class="col-md-12 mb-3">
                                 <label class="form-label">Gambar Produk</label>
                                 <input type="file" class="form-control @error('image') is-invalid @enderror"
                                     name="image">
@@ -142,11 +150,7 @@
                                 @endif
                             </div>
 
-                            <div class="col-md-12 mb-3">
-                                <label class="form-label">Deskripsi</label>
-                                <textarea class="form-control" name="[description]" rows="1" placeholder="Masukkan deskripsi produk...">{{ trim(old('details.' . $loop->index . '.description', $detail->product->description)) }}</textarea>
 
-                            </div>
 
                         </div>
                         <hr>

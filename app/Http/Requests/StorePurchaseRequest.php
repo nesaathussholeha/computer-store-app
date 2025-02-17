@@ -30,8 +30,10 @@ class StorePurchaseRequest extends FormRequest
             'products.*.weight' => 'required|numeric|min:1|max:100000',
             'products.*.price' => 'required|numeric|min:1|max:100000000',
             'products.*.stock' => 'required|integer|min:1|max:10000',
-            'products.*.description' => 'nullable|string|max:500', 
+            'products.*.description' => 'nullable|string|max:500',
             'products.*.image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'products.*.selling_price' => 'required|numeric|min:1|gte:products.*.price',
+
         ];
     }
 
@@ -75,6 +77,14 @@ class StorePurchaseRequest extends FormRequest
             'products.*.image.image' => 'File harus berupa gambar.',
             'products.*.image.mimes' => 'Format gambar harus jpg, jpeg, atau png.',
             'products.*.image.max' => 'Ukuran gambar tidak boleh lebih dari 2MB.',
+
+            'products.*.selling_price.required' => 'Harga jual produk wajib diisi.',
+            'products.*.selling_price.numeric' => 'Harga jual produk harus berupa angka.',
+            'products.*.selling_price.min' => 'Harga jual produk minimal 1.',
+            'products.*.selling_price.max' => 'Harga jual produk tidak boleh kurang dari harga beli.',
+            'products.*.selling_price.gte' => 'Harga jual tidak boleh kurang dari harga beli.',
+
+
         ];
     }
 }

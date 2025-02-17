@@ -124,6 +124,17 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Harga Jual<small class="text-danger">*</small></label>
+                                    <input type="number"
+                                        class="form-control @error('products.0.selling_price') is-invalid @enderror" name="[selling_price]"
+                                        placeholder="Masukkan harga produk" value="{{ old('products.0.selling_price') }}">
+                                    @error('products.0.selling_price')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
                                 <div class="col-md-6 mb-3">
                                     <label class="form-label">Stok<small class="text-danger">*</small></label>
                                     <input type="number"
@@ -133,9 +144,9 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
-                                <div class="col-md-6 mb-3">
+                                <div class="col-md-12 mb-3">
                                     <label class="form-label">Deskripsi</label>
-                                    <textarea class="form-control" name="[description]" rows="1" placeholder="Masukkan deskripsi produk...">{{ old('products.0.description') }}</textarea>
+                                    <textarea class="form-control" name="[description]" rows="3" placeholder="Masukkan deskripsi produk...">{{ old('products.0.description') }}</textarea>
                                 </div>
                                 <div class="col-md-11 d-flex align-items-center">
                                     <div class="w-100">

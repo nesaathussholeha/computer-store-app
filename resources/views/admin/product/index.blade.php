@@ -103,6 +103,9 @@
                         <h6 class="fs-4 fw-semibold mb-0">Harga</h6>
                     </th>
                     <th>
+                        <h6 class="fs-4 fw-semibold mb-0">Harga Jual</h6>
+                    </th>
+                    <th>
                         <h6 class="fs-4 fw-semibold mb-0">Stok</h6>
                     </th>
                     <th>
@@ -122,6 +125,7 @@
                                 @endif
                                 <td>{{ $product->name }}</td>
                                 <td>Rp {{ number_format($product->price, 0, ',', '.') }}</td>
+                                <td>Rp {{ number_format($product->selling_price, 0, ',', '.') }}</td>
                                 <td>{{ $product->stock }}</td>
                                 @if ($key == 0)
                                     <td rowspan="{{ $rowspan }}">

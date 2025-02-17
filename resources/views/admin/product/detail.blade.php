@@ -46,13 +46,13 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Nama Produk</th>
+                    <th>Nama</th>
                     <th>Deskripsi</th>
                     <th>Gambar</th>
                     <th>Kategori</th>
                     <th>Berat</th>
-                    <th>Harga</th>
-                    <th>Stok</th>
+                    <th>Harga Beli</th>
+                    <th>Harga Jual</th>
                     <th>Jumlah Beli</th>
                     <th>Sub Total</th>
                 </tr>
@@ -74,7 +74,7 @@
                         <td>{{ $detail->product->category->name ?? 'Tidak ada kategori' }}</td>
                         <td>{{ $detail->product->weight ?? 'Tidak ada berat' }} g</td>
                         <td>Rp {{ number_format($detail->product->price, 0, ',', '.') }}</td>
-                        <td>{{ $detail->product->stock }}</td>
+                        <td>Rp {{ number_format($detail->product->selling_price, 0, ',', '.') }}</td>
                         <td>{{ $detail->jumlah_beli }}</td>
                         <td>Rp {{ number_format($detail->sub_total, 0, ',', '.') }}</td>
                     </tr>

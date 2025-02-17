@@ -49,7 +49,6 @@ class PurchaseController extends Controller
             $totalHarga = 0;
 
             foreach ($request->products as $productData) {
-                // Menyimpan gambar jika ada
                 $imagePath = null;
                 if (!empty($productData['image']) && $productData['image']->isValid()) {
                     $imagePath = $productData['image']->store('products', 'public');
@@ -61,9 +60,11 @@ class PurchaseController extends Controller
                     'description' => $productData['description'] ?? null,
                     'weight' => $productData['weight'],
                     'price' => $productData['price'],
+                    'selling_price' => $productData['selling_price'],
                     'stock' => $productData['stock'],
-                    'image' => $imagePath, // Simpan path gambar ke database
+                    'image' => $imagePath,
                 ]);
+
 
                 $subTotal = $productData['price'] * $productData['stock'];
                 $totalHarga += $subTotal;
@@ -195,6 +196,7 @@ class PurchaseController extends Controller
                             'weight' => $detail['weight'],
                             'price' => $detail['price'],
                             'stock' => $detail['stock'],
+                            'selling_price' => $detail['selling_price'],
                             'description' => $detail['description'] ?? null,
                         ]
                     );

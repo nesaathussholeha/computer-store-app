@@ -134,4 +134,9 @@
         </div>
         <!-- Column -->
     </div>
+
+    {{-- <p class="mb-0 mt-2 text-muted">
+        {{ \Illuminate\Support\Str::words($product->description, 100) }}
+    </p> --}}
+
 @endsection

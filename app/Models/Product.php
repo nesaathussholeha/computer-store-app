@@ -10,7 +10,16 @@ class Product extends Model
     /** @use HasFactory<\Database\Factories\ProductFactory> */
     use HasFactory;
 
-    protected $fillable = ['category_id', 'name', 'description', 'weight', 'price', 'stock', 'image'];
+    protected $fillable = [
+        'category_id',
+        'name',
+        'description',
+        'weight',
+        'price',
+        'stock',
+        'image',
+        'selling_price',
+    ];
 
     public $incrementing = true;
 
